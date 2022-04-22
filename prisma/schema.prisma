@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Refugee {
+  id              Int               @id @default(autoincrement())
+  firstname       String
+  lastname        String
+  email           String
+  phone           String
+  nationality     String
+  language        String
+  document        Bytes
+  qr_code         String
+  housing         Housing           @relation(fields: [housing_id], references: [id])
+  housing_id      Int
+  KitaApplication KitaApplication[]
+}
+
+model KitaApplication {
+  id         Int     @id @default(autoincrement())
+  Refugee    Refugee @relation(fields: [refugee_id], references: [id])
+  refugee_id Int
+}
+
+model Housing {
+  id               Int       @id @default(autoincrement())
+  housing_type     String
+  number_of_people Int
+  squaremeter      Float
+  shared_bathrooom Boolean
+  rooms            Int
+  rent             Float
+  info             String    @db.LongText
+  citizen          Citizen?  @relation(fields: [citizen_id], references: [id])
+  citizen_id       String?
+  Refugee          Refugee[]
+  addresse         Addresse  @relation(fields: [addresse_id], references: [id])
+  addresse_id      Int
+}
+
+model Addresse {
+  id           Int       @id @default(autoincrement())
+  house_number Int
+  street       String
+  city_code    Int
+  Housing      Housing[]
+}
+
+model Citizen {
+  id       String     @id
+  Housing  Housing[]
+  Donation Donation[]
+}
+
+model Donation {
+  id         Int      @id @default(autoincrement())
+  citizen    Citizen? @relation(fields: [citizen_id], references: [id])
+  citizen_id String
+}
+
+model Employee {
+  id        String @id
+  firstname String
+  lastname  String
+  email     String
+  phone     String
+  room      String
+  Post      Post[]
+}
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  title       String
+  text        String   @db.LongText
+  picture_url String
+  date        DateTime
+  employee    Employee @relation(fields: [employee_id], references: [id])
+  employee_id String
+}
