@@ -66,8 +66,15 @@ describe('Refugee Status API', () => {
     });
   });
 
-  describe('Verify Method Types', () => {
+  describe('Test no parameter send', () => {
+    it('verify correct error code', function () {
+      cy.request({ url: 'http://localhost:3000/api/refugee/', failOnStatusCode: false })
+        .its('status')
+        .should('eq', 404);
+    });
+  });
 
+  describe('Verify Method Types', () => {
     it('GET Method', () => {
       cy.request({
         method: 'GET',
