@@ -579,3 +579,215 @@ describe('Events RabbitMQ', () => {
     });
   });
 
+  // Event Kita Applications Tests
+  describe('Event Notify Kita About Application', () => {
+    describe('Valid Application Data for Event', () => {
+      beforeEach(function () {
+        cy.fixture('events/kita').then((kita) => {
+          this.kita = kita;
+        });
+      });
+
+      it('verify valid request', function () {
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+        })
+          .its('status')
+          .should('eq', 200);
+      });
+
+      it('verify valid care_time >= 20', function () {
+        this.kita.care_time = 20;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+        })
+          .its('status')
+          .should('eq', 200);
+      });
+
+      it('verify valid care_time <= 45', function () {
+        this.kita.care_time = 45;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+        })
+          .its('status')
+          .should('eq', 200);
+      });
+    });
+
+    describe('Invalid Kita Application Data for Event', () => {
+      beforeEach(function () {
+        cy.fixture('events/kita').then((kita) => {
+          this.kita = kita;
+        });
+      });
+
+      it('verify no care_time attribute', function () {
+        delete this.kita.care_time;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify no child attribute', function () {
+        delete this.kita.child;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify no parent attribute', function () {
+        delete this.kita.parent;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify invalid care_time format', function () {
+        this.kita.care_time = '35';
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify invalid id_citizen format on child', function () {
+        this.kita.child.id_citizen = '';
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify invalid id_citizen format on parent', function () {
+        this.kita.parent[0].id_citizen = '';
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify invalid care_time < 20', function () {
+        this.kita.care_time = 19;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify invalid care_time > 45', function () {
+        this.kita.care_time = 46;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/kita`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.kita,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+    });
+
+    describe('Verify Wrong Method Types', () => {
+      it('GET Method', () => {
+        cy.request({
+          method: 'GET',
+          url: 'http://localhost:3000/api/events/kita',
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 405);
+      });
+
+      it('DELETE Method', () => {
+        cy.request({
+          method: 'DELETE',
+          url: 'http://localhost:3000/api/events/kita',
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 405);
+      });
+
+      it('PUT Method', () => {
+        cy.request({
+          method: 'PUT',
+          url: 'http://localhost:3000/api/events/kita',
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 405);
+      });
+    });
+  });
+
