@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const file: Buffer = readFileSync('prisma/mock_data/mock_data.pdf');
 
-const addresseData: Prisma.AddresseCreateInput[] = [
+const addressData: Prisma.AddressCreateInput[] = [
   {
     house_number: 5,
     street: 'Am Waldweg',
@@ -27,7 +27,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   {
     housing_type: 'C117',
     number_of_people: 2,
-    squaremeter: 50.0,
+    size: 50.0,
     shared_bathrooom: false,
     rooms: 1,
     rent: 0.0,
@@ -37,7 +37,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   {
     housing_type: 'A114',
     number_of_people: 4,
-    squaremeter: 100.0,
+    size: 100.0,
     shared_bathrooom: true,
     rooms: 4,
     rent: 0.0,
@@ -47,7 +47,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   {
     housing_type: 'X99',
     number_of_people: 1,
-    squaremeter: 20.0,
+    size: 20.0,
     shared_bathrooom: false,
     rooms: 1,
     rent: 0.0,
@@ -57,7 +57,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   {
     housing_type: 'X98',
     number_of_people: 1,
-    squaremeter: 20.0,
+    size: 20.0,
     shared_bathrooom: false,
     rooms: 1,
     rent: 0.0,
@@ -67,7 +67,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   {
     housing_type: 'X86',
     number_of_people: 1,
-    squaremeter: 20.0,
+    size: 20.0,
     shared_bathrooom: false,
     rooms: 1,
     rent: 0.0,
@@ -77,7 +77,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   {
     housing_type: 'X87',
     number_of_people: 1,
-    squaremeter: 20.0,
+    size: 20.0,
     shared_bathrooom: false,
     rooms: 1,
     rent: 0.0,
@@ -91,6 +91,7 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     firstname: 'Myron',
     lastname: 'Corder',
     email: 'mcorder0@hp.com',
+    date_of_birth: new Date('1962-05-01'),
     nationality: 'Spain',
     language: 'Romanian',
     document: file,
@@ -102,6 +103,7 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     firstname: 'Garik',
     lastname: 'Buffin',
     email: 'gbuffin1@ask.com',
+    date_of_birth: new Date('1963-08-01'),
     nationality: 'United States',
     language: 'Luxembourgish',
     document: file,
@@ -113,6 +115,7 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     firstname: 'Arte',
     lastname: 'Arpino',
     email: 'aarpino2@shop-pro.jp',
+    date_of_birth: new Date('1989-05-01'),
     nationality: 'Portugal',
     language: 'Telugu',
     document: file,
@@ -124,6 +127,7 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     firstname: 'Laureen',
     lastname: 'Youdell',
     email: 'lyoudell3@wix.com',
+    date_of_birth: new Date('1977-05-01'),
     nationality: 'Portugal',
     language: 'Pashto',
     document: file,
@@ -135,6 +139,7 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     firstname: 'Anna-diana',
     lastname: 'Truitt',
     email: 'atruitt4@elegantthemes.com',
+    date_of_birth: new Date('1978-05-01'),
     nationality: 'Sweden',
     language: 'Bengali',
     document: file,
@@ -146,6 +151,7 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     firstname: 'Gaylord',
     lastname: 'Goldstone',
     email: 'ggoldstone5@github.com',
+    date_of_birth: new Date('1992-05-01'),
     nationality: 'Sweden',
     language: 'Icelandic',
     document: file,
@@ -157,6 +163,7 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     firstname: 'Vale',
     lastname: 'Falkus',
     email: 'vfalkus6@yellowpages.com',
+    date_of_birth: new Date('1974-05-01'),
     nationality: 'Portugal',
     language: 'Sotho',
     document: file,
@@ -168,6 +175,7 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     firstname: 'Nerti',
     lastname: 'Hasely',
     email: 'nhasely7@dot.gov',
+    date_of_birth: new Date('1990-05-01'),
     nationality: 'United States',
     language: 'Dzongkha',
     document: file,
@@ -179,6 +187,7 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     firstname: 'Jonathan',
     lastname: 'Chalfant',
     email: 'jchalfant8@nature.com',
+    date_of_birth: new Date('1982-10-01'),
     nationality: 'United States',
     language: 'Moldovan',
     document: file,
@@ -189,6 +198,7 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
   {
     firstname: 'Ricoriki',
     lastname: 'Leyninye',
+    date_of_birth: new Date('1988-05-01'),
     email: 'rleyninye9@bbc.co.uk',
     nationality: 'Finland',
     language: 'Swahili',
@@ -199,22 +209,96 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
   },
 ];
 
-const citizenData: Prisma.CitizenCreateInput[] = [
-  { id: 'citizen_id_423948' },
-  { id: 'citizen_id_222928' },
-  { id: 'citizen_id_128848' },
-  { id: 'citizen_id_721228' },
-  { id: 'citizen_id_822927' },
-  { id: 'citizen_id_323824' },
+const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
+  {
+    id: 'randomkey1',
+    firstname: 'Hans',
+    lastname: 'Quinevan',
+    email: 'hquinevan0@ed.gov',
+    phone: 'Male',
+    room: 'C118'
+  },
+  {
+    id: 'randomkey2',
+    firstname: 'Giff',
+    lastname: 'Dobel',
+    email: 'gdobel1@dyndns.org',
+    phone: 'Male',
+    room: 'C119'
+  },
+  {
+    id: 'randomkey3',
+    firstname: 'Celine',
+    lastname: 'Jaggi',
+    email: 'cjaggi2@smh.com.au',
+    phone: 'Female',
+    room: 'C120'
+  },
+  {
+    id: 'randomkey4',
+    firstname: 'Hinze',
+    lastname: 'Danihelka',
+    email: 'hdanihelka3@sakura.ne.jp',
+    phone: 'Male',
+    room: 'C120'
+  },
+  {
+    id: 'randomkey5',
+    firstname: 'Stephannie',
+    lastname: 'Heather',
+    email: 'sheather4@vkontakte.ru',
+    phone: 'Female',
+    room: 'C120'
+  },
+  {
+    id: 'randomkey6',
+    firstname: 'Danice',
+    lastname: 'Hamson',
+    email: 'dhamson5@statcounter.com',
+    phone: 'Female',
+    room: 'C115'
+  },
+  {
+    id: 'randomkey7',
+    firstname: 'Anselma',
+    lastname: 'Wraxall',
+    email: 'awraxall6@rediff.com',
+    phone: 'Female',
+    room: 'C121'
+  },
+  {
+    id: 'randomkey8',
+    firstname: 'Greggory',
+    lastname: 'McKleod',
+    email: 'gmckleod7@oracle.com',
+    phone: 'Male',
+    room: 'C121'
+  },
+  {
+    id: 'randomkey9',
+    firstname: 'Whitaker',
+    lastname: 'Sallenger',
+    email: 'wsallenger8@livejournal.com',
+    phone: 'Male',
+    room: 'C121'
+  },
+  {
+    id: 'randomkey10',
+    firstname: 'Alberto',
+    lastname: 'Prosh',
+    email: 'aprosh9@theatlantic.com',
+    phone: 'Male',
+    room: 'C122'
+  },
 ];
 
 async function main() {
   console.log(`Start seeding ...`);
-  for (const a of addresseData) {
-    const addresse = await prisma.addresse.create({
+  for (const a of addressData) {
+    const address = await prisma.address.create({
       data: a,
     });
-    console.log(`Created addresse with id: ${addresse.id}`);
+    console.log(`Created addresse with id: ${address.id}`);
   }
   for (const h of housingData) {
     const housing = await prisma.housing.create({
@@ -228,11 +312,11 @@ async function main() {
     });
     console.log(`Created refugee with id: ${refugee.id}`);
   }
-  for (const c of citizenData) {
-    const citizen = await prisma.citizen.create({
-      data: c,
+  for (const e of employeeData) {
+    const refugee = await prisma.employee.create({
+      data: e,
     });
-    console.log(`Created citizen with id: ${citizen.id}`);
+    console.log(`Created refugee with id: ${refugee.id}`);
   }
   console.log(`Seeding finished.`);
 }
