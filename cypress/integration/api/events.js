@@ -915,3 +915,171 @@ describe('Events RabbitMQ', () => {
     });
   });
 
+  // Event Newsletter Post Tests
+  describe('Event Newsletter Post', () => {
+    describe('Valid Post Data for Event', () => {
+      beforeEach(function () {
+        cy.fixture('events/newsletter').then((newsletter) => {
+          this.newsletter = newsletter;
+        });
+      });
+
+      it('verify valid request', function () {
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/newsletter`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.newsletter,
+        })
+          .its('status')
+          .should('eq', 200);
+      });
+
+      it('verify valid optional picture_url', function () {
+        delete this.newsletter.picture_url;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/newsletter`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.newsletter,
+        })
+          .its('status')
+          .should('eq', 200);
+      });
+    });
+
+    describe('Invalid About Us Data for Event', () => {
+      beforeEach(function () {
+        cy.fixture('events/newsletter').then((newsletter) => {
+          this.newsletter = newsletter;
+        });
+      });
+
+      it('verify no title attribute', function () {
+        delete this.newsletter.title;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/newsletter`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.newsletter,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify no text attribute', function () {
+        delete this.newsletter.text;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/newsletter`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.newsletter,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify no date attribute', function () {
+        delete this.newsletter.date;
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/newsletter`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.newsletter,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify wrong title format', function () {
+        this.newsletter.title = '';
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/newsletter`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.newsletter,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify wrong text format', function () {
+        this.newsletter.text = '';
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/newsletter`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.newsletter,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+
+      it('verify wrong date format', function () {
+        this.newsletter.date = '20-04-2022';
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/api/events/newsletter`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.newsletter,
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 400);
+      });
+    });
+
+    describe('Verify Wrong Method Types', () => {
+      it('GET Method', () => {
+        cy.request({
+          method: 'GET',
+          url: 'http://localhost:3000/api/events/landingpage',
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 405);
+      });
+
+      it('DELETE Method', () => {
+        cy.request({
+          method: 'DELETE',
+          url: 'http://localhost:3000/api/events/landingpage',
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 405);
+      });
+
+      it('PUT Method', () => {
+        cy.request({
+          method: 'PUT',
+          url: 'http://localhost:3000/api/events/landingpage',
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 405);
+      });
+    });
+  });
+});
