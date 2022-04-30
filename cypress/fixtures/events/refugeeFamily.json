@@ -1,0 +1,24 @@
+{
+  "parents": [
+    {
+      "firstname": "Vale",
+      "lastname": "Falkus",
+      "email": "vfalkus6@yellowpages.com",
+      "date_of_birth": "1988-01-01"
+    }
+  ],
+  "children": [
+    {
+      "firstname": "Katharina",
+      "lastname": "Bartolomei",
+      "email": "vfalkus6@yellowpages.com",
+      "date_of_birth": "2000-01-01"
+    },
+    {
+      "firstname": "Katharina",
+      "lastname": "Bartolomei",
+      "email": "vfalkus6@yellowpages.com",
+      "date_of_birth": "2000-01-01"
+    }
+  ]
+}
