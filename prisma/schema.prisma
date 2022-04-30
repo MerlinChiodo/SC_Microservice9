@@ -41,11 +41,11 @@ model Housing {
   info             String?   @db.LongText
   citizen_id       String?
   Refugee          Refugee[]
-  addresse         Addresse  @relation(fields: [addresse_id], references: [id])
+  addresse         Address  @relation(fields: [addresse_id], references: [id])
   addresse_id      Int
 }
 
-model Addresse {
+model Address {
   id           Int       @id @default(autoincrement())
   house_number Int
   street       String

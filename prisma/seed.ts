@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const file: Buffer = readFileSync('prisma/mock_data/mock_data.pdf');
 
-const addresseData: Prisma.AddresseCreateInput[] = [
+const addressData: Prisma.AddressCreateInput[] = [
   {
     house_number: 5,
     street: 'Am Waldweg',
@@ -294,11 +294,11 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
 
 async function main() {
   console.log(`Start seeding ...`);
-  for (const a of addresseData) {
-    const addresse = await prisma.addresse.create({
+  for (const a of addressData) {
+    const address = await prisma.address.create({
       data: a,
     });
-    console.log(`Created addresse with id: ${addresse.id}`);
+    console.log(`Created addresse with id: ${address.id}`);
   }
   for (const h of housingData) {
     const housing = await prisma.housing.create({
