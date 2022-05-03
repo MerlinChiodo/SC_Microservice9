@@ -1,13 +1,14 @@
 import { JSONSchemaType } from 'ajv';
 
-interface NewsletterData {
+interface Post {
   title: string;
   text: string;
   picture_url: string;
   date: string;
+  employee_id: string;
 }
 
-interface NewsletterRabbitMQData {
+interface PostRabbitMQ {
   event_id: number;
   event_name: string;
   service_name: string;
@@ -17,7 +18,7 @@ interface NewsletterRabbitMQData {
   date: string;
 }
 
-export const NewsletterDataSchema: JSONSchemaType<NewsletterData> = {
+export const PostSchema: JSONSchemaType<Post> = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Send New Post to Newsletter',
   description: 'Data for a new Post',
@@ -39,12 +40,16 @@ export const NewsletterDataSchema: JSONSchemaType<NewsletterData> = {
       type: 'string',
       format: 'date',
     },
+    employee_id: {
+      type: 'string',
+      minLength: 1,
+    }
   },
-  required: ['title', 'text', 'date'],
+  required: ['title', 'text', 'date', 'employee_id'],
   additionalProperties: false,
 };
 
-export const NewsletterRabbitMQSchema: JSONSchemaType<NewsletterRabbitMQData> = {
+export const PostRabbitMQSchema: JSONSchemaType<PostRabbitMQ> = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Send New Post to Newsletter via RabbitMQ',
   description: 'Event data',
