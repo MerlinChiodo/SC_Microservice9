@@ -12,7 +12,7 @@ model Refugee {
   firstname       String
   lastname        String
   email           String
-  date_of_birth   DateTime          @db.Date()
+  date_of_birth   DateTime          
   phone           String?
   nationality     String?
   language        String?
