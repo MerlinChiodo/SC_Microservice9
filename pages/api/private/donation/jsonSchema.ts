@@ -1,11 +1,11 @@
 import { JSONSchemaType } from 'ajv';
 
-interface DonationData {
+interface Donation {
   amount: number;
   id_citizen: string;
 }
 
-interface DonationRabbitMQData {
+interface DonationRabbitMQ {
   event_id: number;
   event_name: string;
   service_name: string;
@@ -13,27 +13,27 @@ interface DonationRabbitMQData {
   id_citizen: string;
 }
 
-export const DonationDataSchema: JSONSchemaType<DonationData> = {
+export const DonationSchema: JSONSchemaType<Donation> = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  title: 'Send New Donation to Finanzamt',
+  title: 'Donation',
   description: 'Data for a new Donation',
   type: 'object',
   properties: {
     amount: {
       type: 'number',
-      minimum: 5,
+      minimum: 0,
       maximum: 5000,
     },
     id_citizen: {
       type: 'string',
       minLength: 1,
     },
-  },
+  },  
   required: ['amount'],
   additionalProperties: false,
 };
 
-export const DonationRabbitMQSchema: JSONSchemaType<DonationRabbitMQData> = {
+export const DonationRabbitMQSchema: JSONSchemaType<DonationRabbitMQ> = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Send New Donation to Finanzamt via RabbitMQ',
   description: 'Event data',
