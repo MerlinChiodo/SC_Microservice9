@@ -14,7 +14,7 @@ export default function newPostHandler(req: NextApiRequest, res: NextApiResponse
     case 'POST':
       // Validation JSON Schema REST API Call
       if (!ajv.validate(PostSchema, req.body)) {
-        res.status(400).end('Invalid Kita Application');
+        res.status(400).end('Invalid Post Data');
         return;
       }
 
@@ -24,14 +24,14 @@ export default function newPostHandler(req: NextApiRequest, res: NextApiResponse
         service_name: 'integration',
         title: req.body.title,
         text: req.body.text,
-        picture_url: req.body.picture_url,
+        picture: req.body.picture,
         date: req.body.date,
       };
 
       const db = {
         title: req.body.title,
         text: req.body.text,
-        picture_url: req.body.picture_url,
+        picture: req.body.picture,
         date: new Date(req.body.date),
         employee_id: req.body.employee_id,
       };

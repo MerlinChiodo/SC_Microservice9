@@ -3,18 +3,18 @@ import { JSONSchemaType } from 'ajv';
 interface Post {
   title: string;
   text: string;
-  picture_url: string;
+  picture: string;
   date: string;
-  employee_id: string;
+  employee_id: number;
 }
 
-interface PostRabbitMQ {
+export interface PostRabbitMQ {
   event_id: number;
   event_name: string;
   service_name: string;
   title: string;
   text: string;
-  picture_url: string;
+  picture: string;
   date: string;
 }
 
@@ -32,18 +32,18 @@ export const PostSchema: JSONSchemaType<Post> = {
       type: 'string',
       minLength: 1,
     },
-    picture_url: {
+    picture: {
       type: 'string',
       minLength: 1,
     },
     date: {
       type: 'string',
-      format: 'date',
+      format: 'date-time',
     },
     employee_id: {
-      type: 'string',
-      minLength: 1,
-    }
+      type: 'number',
+      minimum: 1,
+    },
   },
   required: ['title', 'text', 'date', 'employee_id'],
   additionalProperties: false,
@@ -75,13 +75,13 @@ export const PostRabbitMQSchema: JSONSchemaType<PostRabbitMQ> = {
       type: 'string',
       minLength: 1,
     },
-    picture_url: {
+    picture: {
       type: 'string',
       minLength: 1,
     },
     date: {
       type: 'string',
-      format: 'date',
+      format: 'date-time',
     },
   },
   required: ['event_id', 'event_name', 'service_name', 'title', 'text', 'date'],

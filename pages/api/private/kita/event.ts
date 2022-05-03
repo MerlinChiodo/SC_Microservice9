@@ -1,25 +1,8 @@
 import amqp from 'amqplib/callback_api';
 import Ajv from 'ajv';
-import { KitaRabbitMQSchema } from './jsonSchema';
+import { KitaRabbitMQSchema, KitaRabbitMQ } from './jsonSchema';
 
-interface Child {
-  id_citizen: string;
-}
-
-interface Parent {
-  id_citizen: string;
-}
-
-interface KitaEvent {
-  event_id: number;
-  event_name: string;
-  service_name: string;
-  care_time: number;
-  child: Child;
-  parent: Parent;
-}
-
-export default function kitaEventHandler(event: KitaEvent) {
+export default function kitaEventHandler(event: KitaRabbitMQ) {
   const ajv = new Ajv({ allErrors: true });
 
   return new Promise((resolve, reject) => {

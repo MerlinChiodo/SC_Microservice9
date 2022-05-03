@@ -1,16 +1,8 @@
 import amqp from 'amqplib/callback_api';
 import Ajv from 'ajv';
-import { DonationRabbitMQSchema } from './jsonSchema';
+import { DonationRabbitMQSchema, DonationRabbitMQ } from './jsonSchema';
 
-interface DonationEvent {
-  event_id: number;
-  event_name: string;
-  service_name: string;
-  amount: number;
-  id_citizen?: string;
-}
-
-export default function donationEventHandler(event: DonationEvent) {
+export default function donationEventHandler(event: DonationRabbitMQ) {
   const ajv = new Ajv({ allErrors: true });
 
   return new Promise((resolve, reject) => {

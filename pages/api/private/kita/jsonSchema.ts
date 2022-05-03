@@ -1,16 +1,16 @@
 import { JSONSchemaType } from 'ajv';
 
-interface Citizen {
-  id_citizen: string;
+export interface Citizen {
+  citizen_id: number;
 }
 
 interface Child {
-  id_citizen: string;
-  id_refugee: number;
+  citizen_id: number;
+  refugee_id: number;
 }
 interface Parent {
-  id_citizen: string;
-  id_refugee: number;
+  citizen_id: number;
+  refugee_id: number;
 }
 
 interface Kita {
@@ -20,7 +20,7 @@ interface Kita {
   parent: Parent;
 }
 
-interface KitaRabbitMQData {
+export interface KitaRabbitMQ {
   event_id: number;
   event_name: string;
   service_name: string;
@@ -47,37 +47,37 @@ export const KitaSchema: JSONSchemaType<Kita> = {
     child: {
       type: 'object',
       properties: {
-        id_citizen: {
-          type: 'string',
-          minLength: 1,
+        citizen_id: {
+          type: 'number',
+          minimum: 1,
         },
-        id_refugee: {
+        refugee_id: {
           type: 'integer',
           minimum: 1,
         },
       },
-      required: ['id_citizen', 'id_refugee'],
+      required: ['citizen_id', 'refugee_id'],
     },
     parent: {
       type: 'object',
       properties: {
-        id_citizen: {
-          type: 'string',
-          minLength: 1,
+        citizen_id: {
+          type: 'number',
+          minimum: 1,
         },
-        id_refugee: {
+        refugee_id: {
           type: 'integer',
           minimum: 1,
         },
       },
-      required: ['id_citizen', 'id_refugee'],
+      required: ['citizen_id', 'refugee_id'],
     },
   },
   required: ['date', 'child', 'parent'],
   additionalProperties: false,
 };
 
-export const KitaRabbitMQSchema: JSONSchemaType<KitaRabbitMQData> = {
+export const KitaRabbitMQSchema: JSONSchemaType<KitaRabbitMQ> = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Send Kita Application Data to Kita via RabbitMQ',
   description: 'Schema for RabbitMQ Event',
@@ -103,22 +103,22 @@ export const KitaRabbitMQSchema: JSONSchemaType<KitaRabbitMQData> = {
     child: {
       type: 'object',
       properties: {
-        id_citizen: {
-          type: 'string',
-          minLength: 1,
+        citizen_id: {
+          type: 'number',
+          minimum: 1,
         },
       },
-      required: ['id_citizen'],
+      required: ['citizen_id'],
     },
     parent: {
       type: 'object',
       properties: {
-        id_citizen: {
-          type: 'string',
-          minLength: 1,
+        citizen_id: {
+          type: 'number',
+          minimum: 1,
         },
       },
-      required: ['id_citizen'],
+      required: ['citizen_id'],
     },
   },
   required: ['event_id', 'event_name', 'service_name', 'care_time', 'child', 'parent'],

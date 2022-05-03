@@ -2,11 +2,11 @@
   "date": "2022-01-01",
   "care_time": 30,
   "child": {
-    "id_citizen": "testidchild",
-    "id_refugee": 3
+    "citizen_id": 2,
+    "refugee_id": 3
   },
   "parent": {
-    "id_citizen": "testidparent1",
-    "id_refugee": 1
+    "citizen_id": 1,
+    "refugee_id": 1
   }
 }

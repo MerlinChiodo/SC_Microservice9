@@ -1,6 +1,7 @@
 import { JSONSchemaType } from 'ajv';
 
 interface AboutUsData {
+  date: string
   about_us: string;
   picture: string;
 }
@@ -9,6 +10,7 @@ interface AboutUsRabbitMQData {
   event_id: number;
   event_name: string;
   service_name: string;
+  date: string;
   about_us: string;
   picture: string;
 }
@@ -19,6 +21,10 @@ export const AboutUsDataSchema: JSONSchemaType<AboutUsData> = {
   description: 'Data for the About Us Landing Page',
   type: 'object',
   properties: {
+    date: {
+      type: 'string',
+      format: 'date-time'
+    },
     about_us: {
       type: 'string',
       minLength: 1,
@@ -50,6 +56,10 @@ export const AboutUsRabbitMQSchema: JSONSchemaType<AboutUsRabbitMQData> = {
       type: 'string',
       const: 'integration',
     },
+    date: {
+      type: 'string',
+      format: 'date-time',
+    },
     about_us: {
       type: 'string',
       minLength: 1,
@@ -59,6 +69,6 @@ export const AboutUsRabbitMQSchema: JSONSchemaType<AboutUsRabbitMQData> = {
       minLength: 1,
     },
   },
-  required: ['event_id', 'event_name', 'service_name', 'about_us', 'picture'],
+  required: ['event_id', 'event_name', 'service_name', 'date', 'about_us', 'picture'],
   additionalProperties: false,
 };

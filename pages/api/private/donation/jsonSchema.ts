@@ -2,15 +2,15 @@ import { JSONSchemaType } from 'ajv';
 
 interface Donation {
   amount: number;
-  id_citizen: string;
+  citizen_id: number;
 }
 
-interface DonationRabbitMQ {
+export interface DonationRabbitMQ {
   event_id: number;
   event_name: string;
   service_name: string;
   amount: number;
-  id_citizen: string;
+  citizen_id: number;
 }
 
 export const DonationSchema: JSONSchemaType<Donation> = {
@@ -24,11 +24,11 @@ export const DonationSchema: JSONSchemaType<Donation> = {
       minimum: 0,
       maximum: 5000,
     },
-    id_citizen: {
-      type: 'string',
-      minLength: 1,
+    citizen_id: {
+      type: 'number',
+      minimum: 1,
     },
-  },  
+  },
   required: ['amount'],
   additionalProperties: false,
 };
@@ -56,11 +56,11 @@ export const DonationRabbitMQSchema: JSONSchemaType<DonationRabbitMQ> = {
       minimum: 5,
       maximum: 5000,
     },
-    id_citizen: {
-      type: 'string',
-      minLength: 1,
+    citizen_id: {
+      type: 'number',
+      minimum: 1,
     },
   },
-  required: ['event_id', 'event_name', 'service_name', 'amount', 'id_citizen'],
+  required: ['event_id', 'event_name', 'service_name', 'amount', 'citizen_id'],
   additionalProperties: false,
 };

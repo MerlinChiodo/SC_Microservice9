@@ -1,19 +1,9 @@
 import amqp from 'amqplib/callback_api';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
-import { PostRabbitMQSchema } from './jsonSchema';
+import { PostRabbitMQSchema, PostRabbitMQ } from './jsonSchema';
 
-interface NewPostEvent {
-  event_id: number;
-  event_name: string;
-  service_name: string;
-  title: string;
-  text: string;
-  picture_url: string;
-  date: string;
-}
-
-export default function newPostEventHandler(event: NewPostEvent) {
+export default function newPostEventHandler(event: PostRabbitMQ) {
   const ajv = new Ajv({ allErrors: true });
   addFormats(ajv);
 

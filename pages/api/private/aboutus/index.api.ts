@@ -1,17 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import amqp from 'amqplib/callback_api';
 import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
 import { AboutUsDataSchema, AboutUsRabbitMQSchema } from './jsonSchema';
 
 export default function aboutUsHandler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
   const ajv = new Ajv({ allErrors: true });
+  addFormats(ajv);
 
   switch (method) {
     case 'POST':
       // Validation JSON Schemas
       if (!ajv.validate(AboutUsDataSchema, req.body)) {
-        res.status(400).end('Invalid Donation Data');
+        res.status(400).end('Invalid AboutUs Data');
         break;
       }
 
@@ -19,6 +21,7 @@ export default function aboutUsHandler(req: NextApiRequest, res: NextApiResponse
         event_id: 9005,
         event_name: 'Update About Us',
         service_name: 'integration',
+        date: req.body.date,
         about_us: req.body.about_us,
         picture: req.body.picture,
       };

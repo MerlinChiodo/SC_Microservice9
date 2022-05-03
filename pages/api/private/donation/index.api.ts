@@ -20,7 +20,7 @@ export default async function donateHandler(req: NextApiRequest, res: NextApiRes
 
       const db = {
         amount: req.body.amount,
-        citizen_id: req.body.id_citizen,
+        citizen_id: req.body.citizen_id,
       };
 
       // create donation in db
@@ -28,7 +28,7 @@ export default async function donateHandler(req: NextApiRequest, res: NextApiRes
         .create({ data: db })
         .then((donation) => {
           // Send Event via RabbitMQ if id_citizens exists
-          if (req.body.id_citizen) {
+          if (req.body.citizen_id) {
             donationEventHandler({
               event_id: 9003,
               event_name: 'Notify Incoming Donation',
