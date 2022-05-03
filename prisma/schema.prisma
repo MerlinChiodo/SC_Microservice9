@@ -41,8 +41,8 @@ model Housing {
   info             String?   @db.LongText
   citizen_id       String?
   Refugee          Refugee[]
-  addresse         Address  @relation(fields: [addresse_id], references: [id])
-  addresse_id      Int
+  address         Address  @relation(fields: [address_id], references: [id])
+  address_id      Int
 }
 
 model Address {

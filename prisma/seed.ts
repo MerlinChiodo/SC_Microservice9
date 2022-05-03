@@ -32,7 +32,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
     rooms: 1,
     rent: 0.0,
     info: 'Public Apartment from the city center',
-    addresse_id: 1,
+    address_id: 1,
   },
   {
     housing_type: 'A114',
@@ -42,7 +42,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
     rooms: 4,
     rent: 0.0,
     info: 'Public Apartment from the city center',
-    addresse_id: 2,
+    address_id: 2,
   },
   {
     housing_type: 'X99',
@@ -52,7 +52,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
     rooms: 1,
     rent: 0.0,
     info: 'Public Apartment from the city center',
-    addresse_id: 3,
+    address_id: 3,
   },
   {
     housing_type: 'X98',
@@ -62,7 +62,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
     rooms: 1,
     rent: 0.0,
     info: 'Public Apartment from the city center',
-    addresse_id: 3,
+    address_id: 3,
   },
   {
     housing_type: 'X86',
@@ -72,7 +72,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
     rooms: 1,
     rent: 0.0,
     info: 'Public Apartment from the city center',
-    addresse_id: 3,
+    address_id: 3,
   },
   {
     housing_type: 'X87',
@@ -82,7 +82,7 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
     rooms: 1,
     rent: 0.0,
     info: 'Public Apartment from the city center',
-    addresse_id: 3,
+    address_id: 3,
   },
 ];
 
