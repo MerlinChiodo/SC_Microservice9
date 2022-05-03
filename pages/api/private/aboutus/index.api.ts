@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import amqp from 'amqplib/callback_api';
 import Ajv from 'ajv';
-import { AboutUsDataSchema, LandingPageRabbitMQSchema } from './jsonSchema';
+import { AboutUsDataSchema, AboutUsRabbitMQSchema } from './jsonSchema';
 
-export default function landingPageHandler(req: NextApiRequest, res: NextApiResponse) {
+export default function aboutUsHandler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
   const ajv = new Ajv({ allErrors: true });
 
@@ -24,12 +24,12 @@ export default function landingPageHandler(req: NextApiRequest, res: NextApiResp
       };
 
       // Validation JSON Schema RabbitMQ
-      if (!ajv.validate(LandingPageRabbitMQSchema, event)) {
+      if (!ajv.validate(AboutUsRabbitMQSchema, event)) {
         res.status(400).end('Invalid RabbitMQ Event Data. Please Contact Integration Support Team');
         break;
       }
 
-      // Changing event_id for testing
+      // Change event_id for testing
       if (process.env.TESTING === 'true') {
         event.event_id = 9999;
       }

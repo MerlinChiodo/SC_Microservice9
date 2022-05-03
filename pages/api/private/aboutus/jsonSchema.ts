@@ -5,7 +5,7 @@ interface AboutUsData {
   picture: string;
 }
 
-interface LandingPageRabbitMQData {
+interface AboutUsRabbitMQData {
   event_id: number;
   event_name: string;
   service_name: string;
@@ -32,7 +32,7 @@ export const AboutUsDataSchema: JSONSchemaType<AboutUsData> = {
   additionalProperties: false,
 };
 
-export const LandingPageRabbitMQSchema: JSONSchemaType<LandingPageRabbitMQData> = {
+export const AboutUsRabbitMQSchema: JSONSchemaType<AboutUsRabbitMQData> = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'About Us Landing Page via RabbitMQ',
   description: 'Event data',
