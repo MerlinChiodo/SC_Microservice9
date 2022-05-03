@@ -33,16 +33,17 @@ model KitaApplication {
 model Housing {
   id               Int       @id @default(autoincrement())
   housing_type     String
-  number_of_people Int?
+  people_assigned  Int
+  people_limit     Int
   size             Float
   shared_bathrooom Boolean?
   rooms            Int?
   rent             Float
   info             String?   @db.LongText
-  citizen_id       String?
+  citizen_id       Int?
   Refugee          Refugee[]
-  address         Address  @relation(fields: [address_id], references: [id])
-  address_id      Int
+  address          Address   @relation(fields: [address_id], references: [id])
+  address_id       Int
 }
 
 model Address {
@@ -54,13 +55,13 @@ model Address {
 }
 
 model Donation {
-  id         Int     @id @default(autoincrement())
+  id         Int   @id @default(autoincrement())
   amount     Float
-  citizen_id String?
+  citizen_id Int?
 }
 
 model Employee {
-  id        String  @id
+  id        Int     @id
   firstname String
   lastname  String
   email     String?
@@ -73,8 +74,8 @@ model Post {
   id          Int      @id @default(autoincrement())
   title       String?
   text        String   @db.LongText
-  picture_url String?
+  picture     String?
   date        DateTime
   employee    Employee @relation(fields: [employee_id], references: [id])
-  employee_id String
+  employee_id Int
 }
