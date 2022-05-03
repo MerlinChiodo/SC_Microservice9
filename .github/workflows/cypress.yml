@@ -21,6 +21,7 @@ jobs:
       - name: Cypress run with env
         uses: cypress-io/github-action@v2
         with:
+          reset: npx prisma migrate reset -f
           build: npm run build
           start: npm run start
           wait-on: http://localhost:3000
