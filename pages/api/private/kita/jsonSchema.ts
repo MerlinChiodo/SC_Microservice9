@@ -37,7 +37,7 @@ export const KitaSchema: JSONSchemaType<Kita> = {
   properties: {
     date: {
       type: 'string',
-      format: 'date',
+      format: 'date-time',
     },
     care_time: {
       type: 'number',

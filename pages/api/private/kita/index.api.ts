@@ -26,17 +26,12 @@ export default function kitaHandler(req: NextApiRequest, res: NextApiResponse) {
         parent: { citizen_id: req.body.parent.citizen_id },
       };
 
-      const db = {
-        date: new Date(req.body.date),
-        refugee_id: req.body.child.refugee_id,
-      };
-
       // Send Event via RabbitMQ
       kitaEventHandler(event)
         .then(() => {
           // create record about application in db
           prisma.kitaApplication
-            .create({ data: db })
+            .create({ data: {date: req.body.date, refugee_id: req.body.child.refugee_id,}})
             .then((kita) => res.status(200).json(kita))
             .catch(() => res.status(500).end('Internal Database Server Error'));
         })
