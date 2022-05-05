@@ -28,24 +28,32 @@ export default function registerHandler(req: NextApiRequest, res: NextApiRespons
           email: req.body.email,
         },
       };
-      const qr_code = generateQRCode();
-      const housing_id = assignHousing();
-      prisma.refugee
-        .create({
-          data: { ...req.body, qr_code: qr_code, housing_id: housing_id },
-        })
-        .then((refugee) => {
-          registerRefugeeEventHandler(event)
-            .then(() => res.status(200).json({ refugee: refugee, error: false }))
-            .catch((err) =>
-              res
-                .status(200)
-                .json({ refugee: refugee, error: true, code: err.code, message: err.message })
-            );
+      const qr_code = generateQRCode(req.body.firstname, req.body.lastname);
+      let housing_id: number;
+      assignHousing(1)
+        .then((id) => {
+          housing_id = id;
+          console.log(id)
+          prisma.refugee
+            .create({
+              data: { ...req.body, qr_code: qr_code, housing_id: housing_id },
+            })
+            .then((refugee) => {
+              registerRefugeeEventHandler(event)
+                .then(() => res.status(200).json({ refugee: refugee, error: false }))
+                .catch((err) =>
+                  res
+                    .status(200)
+                    .json({ refugee: refugee, error: true, code: err.code, message: err.message })
+                );
+            })
+            .catch((err) => {
+              console.log(err);
+              res.status(500).end('Error creating refugee');
+            });
         })
         .catch((err) => {
-          console.log(err);
-          res.status(500).end('Error creating refugee');
+          res.status(500).end(err);
         });
       break;
     default:

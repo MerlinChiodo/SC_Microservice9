@@ -1,15 +1,41 @@
+import { v4 as uuidv4 } from 'uuid';
 import { prisma } from '../../../../lib/prisma';
 import { registerRefugeeFamilyEventHandler } from './eventFamily';
 import { RegisterRefugeeFamily } from './jsonSchema';
 
-export function generateQRCode() {
-  // TODO
-  return Math.random().toString(36).substr(2, 10); //random string
+export function generateQRCode(firstname: string, lastname: string) {
+  return firstname + '.' + lastname + '.' + uuidv4();
 }
 
-export function assignHousing() {
-  // TODO
-  return 1;
+export function assignHousing(amount: number) {
+  return new Promise<number>(async (resolve, reject) => {
+    let housing: any =
+      await prisma.$queryRaw`SELECT id FROM Housing WHERE (people_limit - people_assigned) = ${amount} LIMIT 1`;
+
+    if (!housing) {
+      housing =
+        await prisma.$queryRaw`SELECT id FROM Housing WHERE (people_limit - people_assigned) = ${
+          amount + 1
+        } LIMIT 1`;
+    }
+
+    if (!housing) {
+      housing =
+        await prisma.$queryRaw`SELECT id FROM Housing WHERE (people_limit - people_assigned) = ${
+          amount + 2
+        } LIMIT 1`;
+    }
+
+    if (!housing) {
+      housing =
+        await prisma.$queryRaw`SELECT id FROM Housing WHERE (people_limit - people_assigned) >= ${amount} LIMIT 1`;
+    }
+
+    if (!housing) {
+      reject('No housing available');
+    }
+    resolve(housing[0].id);
+  });
 }
 
 export function registerFamily(rf: RegisterRefugeeFamily) {
@@ -22,19 +48,22 @@ export function registerFamily(rf: RegisterRefugeeFamily) {
   };
   const parentsList: any = [];
   const childrenList: any = [];
-  const housing_id = assignHousing();
-  rf.parents.forEach((p, i) => {
-    const qr_code = generateQRCode();
-    const refugee = prisma.refugee
+  let housing_id: number;
+  assignHousing(rf.parents.length + rf.children.length)
+    .then((id) => (housing_id = id))
+    .catch((err) => new Error(err));
+  rf.parents.forEach(async (p, i) => {
+    const qr_code = generateQRCode(p.firstname, p.lastname);
+    const refugee = await prisma.refugee
       .create({
         data: { ...p, qr_code: qr_code, housing_id: housing_id },
       })
       .catch((err) => new Error(err));
     parentsList.push(refugee);
   });
-  rf.children.forEach((c, i) => {
-    const qr_code = generateQRCode();
-    const child = prisma.refugee
+  rf.children.forEach(async (c, i) => {
+    const qr_code = generateQRCode(c.firstname, c.lastname);
+    const child = await prisma.refugee
       .create({
         data: { ...c, qr_code: qr_code, housing_id: housing_id },
       })
