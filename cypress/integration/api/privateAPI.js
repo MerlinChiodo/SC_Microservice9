@@ -1,5 +1,5 @@
-// RabbitMQ - Events
-describe('Events RabbitMQ', () => {
+// Private API
+describe('Private API', () => {
   // Event Register Refugee Tests
   describe('Event Register Refugee', () => {
     describe('Valid Refugee Data for Event', () => {
@@ -12,7 +12,7 @@ describe('Events RabbitMQ', () => {
       it('verify valid request', function () {
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/register`,
+          url: `api/private/refugee/register`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -34,7 +34,7 @@ describe('Events RabbitMQ', () => {
         delete this.refugee.date_of_birth;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/register`,
+          url: `api/private/refugee/register`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -49,7 +49,7 @@ describe('Events RabbitMQ', () => {
         delete this.refugee.email;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/register`,
+          url: `api/private/refugee/register`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -64,7 +64,7 @@ describe('Events RabbitMQ', () => {
         delete this.refugee.firstname;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/register`,
+          url: `api/private/refugee/register`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -79,7 +79,7 @@ describe('Events RabbitMQ', () => {
         delete this.refugee.lastname;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/register`,
+          url: `api/private/refugee/register`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -94,7 +94,7 @@ describe('Events RabbitMQ', () => {
         this.refugee.date_of_birth = '01-01-1977';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/register`,
+          url: `api/private/refugee/register`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -109,7 +109,7 @@ describe('Events RabbitMQ', () => {
         this.refugee.email = 'testtest.com';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/register`,
+          url: `api/private/refugee/register`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -124,7 +124,7 @@ describe('Events RabbitMQ', () => {
         this.refugee.firstname = '';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/register`,
+          url: `api/private/refugee/register`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -139,7 +139,7 @@ describe('Events RabbitMQ', () => {
         this.refugee.lastname = '';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/register`,
+          url: `api/private/refugee/register`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -155,7 +155,7 @@ describe('Events RabbitMQ', () => {
       it('GET Method', () => {
         cy.request({
           method: 'GET',
-          url: 'http://localhost:3000/api/private/refugee/register',
+          url: 'api/private/refugee/register',
           failOnStatusCode: false,
         })
           .its('status')
@@ -165,7 +165,7 @@ describe('Events RabbitMQ', () => {
       it('DELETE Method', () => {
         cy.request({
           method: 'DELETE',
-          url: 'http://localhost:3000/api/private/refugee/register',
+          url: 'api/private/refugee/register',
           failOnStatusCode: false,
         })
           .its('status')
@@ -175,7 +175,7 @@ describe('Events RabbitMQ', () => {
       it('PUT Method', () => {
         cy.request({
           method: 'PUT',
-          url: 'http://localhost:3000/api/private/refugee/register',
+          url: 'api/private/refugee/register',
           failOnStatusCode: false,
         })
           .its('status')
@@ -196,7 +196,7 @@ describe('Events RabbitMQ', () => {
       it('verify valid request', function () {
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -218,7 +218,7 @@ describe('Events RabbitMQ', () => {
         delete this.refugeeFamily.parents;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -233,7 +233,7 @@ describe('Events RabbitMQ', () => {
         delete this.refugeeFamily.children;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -248,7 +248,7 @@ describe('Events RabbitMQ', () => {
         this.refugeeFamily.parents[0].firstname = '';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -263,7 +263,7 @@ describe('Events RabbitMQ', () => {
         this.refugeeFamily.children[0].firstname = '';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -278,7 +278,7 @@ describe('Events RabbitMQ', () => {
         this.refugeeFamily.parents[0].lastname = '';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -293,7 +293,7 @@ describe('Events RabbitMQ', () => {
         this.refugeeFamily.children[0].lastname = '';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -307,7 +307,7 @@ describe('Events RabbitMQ', () => {
         this.refugeeFamily.parents[0].date_of_birth = '01-01-1977';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -322,7 +322,7 @@ describe('Events RabbitMQ', () => {
         this.refugeeFamily.children[0].date_of_birth = '01-01-1977';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -337,7 +337,7 @@ describe('Events RabbitMQ', () => {
         this.refugeeFamily.parents[0].email = 'hellohello.de';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -352,7 +352,7 @@ describe('Events RabbitMQ', () => {
         this.refugeeFamily.children[0].email = 'hellohello.de';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/refugee/registerFamily`,
+          url: `api/private/refugee/registerFamily`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -368,7 +368,7 @@ describe('Events RabbitMQ', () => {
       it('GET Method', () => {
         cy.request({
           method: 'GET',
-          url: 'http://localhost:3000/api/private/refugee/registerFamily',
+          url: 'api/private/refugee/registerFamily',
           failOnStatusCode: false,
         })
           .its('status')
@@ -378,7 +378,7 @@ describe('Events RabbitMQ', () => {
       it('DELETE Method', () => {
         cy.request({
           method: 'DELETE',
-          url: 'http://localhost:3000/api/private/refugee/registerFamily',
+          url: 'api/private/refugee/registerFamily',
           failOnStatusCode: false,
         })
           .its('status')
@@ -388,7 +388,7 @@ describe('Events RabbitMQ', () => {
       it('PUT Method', () => {
         cy.request({
           method: 'PUT',
-          url: 'http://localhost:3000/api/private/refugee/registerFamily',
+          url: 'api/private/refugee/registerFamily',
           failOnStatusCode: false,
         })
           .its('status')
@@ -409,7 +409,7 @@ describe('Events RabbitMQ', () => {
       it('verify valid request', function () {
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/donation`,
+          url: `api/private/donation`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -422,7 +422,7 @@ describe('Events RabbitMQ', () => {
       it('verify valid request should return json', function () {
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/donation`,
+          url: `api/private/donation`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -437,7 +437,7 @@ describe('Events RabbitMQ', () => {
         this.donation.amount = 5000.0;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/donation`,
+          url: `api/private/donation`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -451,7 +451,7 @@ describe('Events RabbitMQ', () => {
         this.donation.amount = 5.0;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/donation`,
+          url: `api/private/donation`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -465,7 +465,7 @@ describe('Events RabbitMQ', () => {
         delete this.donation.citizen_id;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/donation`,
+          url: `api/private/donation`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -487,7 +487,7 @@ describe('Events RabbitMQ', () => {
         delete this.donation.amount;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/donation`,
+          url: `api/private/donation`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -502,7 +502,7 @@ describe('Events RabbitMQ', () => {
         this.donation.amount = '50.0';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/donation`,
+          url: `api/private/donation`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -517,7 +517,7 @@ describe('Events RabbitMQ', () => {
         this.donation.citizen_id = 'testid';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/donation`,
+          url: `api/private/donation`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -532,7 +532,7 @@ describe('Events RabbitMQ', () => {
         this.donation.amount = 4.99;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/donation`,
+          url: `api/private/donation`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -547,7 +547,7 @@ describe('Events RabbitMQ', () => {
         this.donation.amount = 5000.01;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/donation`,
+          url: `api/private/donation`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -563,7 +563,7 @@ describe('Events RabbitMQ', () => {
       it('GET Method', () => {
         cy.request({
           method: 'GET',
-          url: 'http://localhost:3000/api/private/donation',
+          url: 'api/private/donation',
           failOnStatusCode: false,
         })
           .its('status')
@@ -573,7 +573,7 @@ describe('Events RabbitMQ', () => {
       it('DELETE Method', () => {
         cy.request({
           method: 'DELETE',
-          url: 'http://localhost:3000/api/private/donation',
+          url: 'api/private/donation',
           failOnStatusCode: false,
         })
           .its('status')
@@ -583,7 +583,7 @@ describe('Events RabbitMQ', () => {
       it('PUT Method', () => {
         cy.request({
           method: 'PUT',
-          url: 'http://localhost:3000/api/private/donation',
+          url: 'api/private/donation',
           failOnStatusCode: false,
         })
           .its('status')
@@ -604,7 +604,7 @@ describe('Events RabbitMQ', () => {
       it('verify valid request status 200', function () {
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -617,7 +617,7 @@ describe('Events RabbitMQ', () => {
       it('verify valid request content type json', function () {
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -632,7 +632,7 @@ describe('Events RabbitMQ', () => {
         this.kita.care_time = 20;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -646,7 +646,7 @@ describe('Events RabbitMQ', () => {
         this.kita.care_time = 45;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -668,7 +668,7 @@ describe('Events RabbitMQ', () => {
         delete this.kita.care_time;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -683,7 +683,7 @@ describe('Events RabbitMQ', () => {
         delete this.kita.child;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -698,7 +698,7 @@ describe('Events RabbitMQ', () => {
         delete this.kita.parent;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -713,7 +713,7 @@ describe('Events RabbitMQ', () => {
         this.kita.care_time = '35';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -728,7 +728,7 @@ describe('Events RabbitMQ', () => {
         this.kita.child.citizen_id = 'testid';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -743,7 +743,7 @@ describe('Events RabbitMQ', () => {
         this.kita.parent.citizen_id = 'testid';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -758,7 +758,7 @@ describe('Events RabbitMQ', () => {
         this.kita.care_time = 19;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -773,7 +773,7 @@ describe('Events RabbitMQ', () => {
         this.kita.care_time = 46;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/kita`,
+          url: `api/private/kita`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -789,7 +789,7 @@ describe('Events RabbitMQ', () => {
       it('GET Method', () => {
         cy.request({
           method: 'GET',
-          url: 'http://localhost:3000/api/private/kita',
+          url: 'api/private/kita',
           failOnStatusCode: false,
         })
           .its('status')
@@ -799,7 +799,7 @@ describe('Events RabbitMQ', () => {
       it('DELETE Method', () => {
         cy.request({
           method: 'DELETE',
-          url: 'http://localhost:3000/api/private/kita',
+          url: 'api/private/kita',
           failOnStatusCode: false,
         })
           .its('status')
@@ -809,7 +809,7 @@ describe('Events RabbitMQ', () => {
       it('PUT Method', () => {
         cy.request({
           method: 'PUT',
-          url: 'http://localhost:3000/api/private/kita',
+          url: 'api/private/kita',
           failOnStatusCode: false,
         })
           .its('status')
@@ -830,7 +830,7 @@ describe('Events RabbitMQ', () => {
       it('verify valid request', function () {
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/aboutus`,
+          url: `api/private/aboutus`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -852,7 +852,7 @@ describe('Events RabbitMQ', () => {
         delete this.aboutus.about_us;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/aboutus`,
+          url: `api/private/aboutus`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -867,7 +867,7 @@ describe('Events RabbitMQ', () => {
         delete this.aboutus.picture;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/aboutus`,
+          url: `api/private/aboutus`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -882,7 +882,7 @@ describe('Events RabbitMQ', () => {
         this.aboutus.about_us = '';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/aboutus`,
+          url: `api/private/aboutus`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -897,7 +897,7 @@ describe('Events RabbitMQ', () => {
         this.aboutus.picture = '';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/aboutus`,
+          url: `api/private/aboutus`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -913,7 +913,7 @@ describe('Events RabbitMQ', () => {
       it('GET Method', () => {
         cy.request({
           method: 'GET',
-          url: `http://localhost:3000/api/private/aboutus`,
+          url: `api/private/aboutus`,
           failOnStatusCode: false,
         })
           .its('status')
@@ -923,7 +923,7 @@ describe('Events RabbitMQ', () => {
       it('DELETE Method', () => {
         cy.request({
           method: 'DELETE',
-          url: `http://localhost:3000/api/private/aboutus`,
+          url: `api/private/aboutus`,
           failOnStatusCode: false,
         })
           .its('status')
@@ -933,7 +933,7 @@ describe('Events RabbitMQ', () => {
       it('PUT Method', () => {
         cy.request({
           method: 'PUT',
-          url: `http://localhost:3000/api/private/aboutus`,
+          url: `api/private/aboutus`,
           failOnStatusCode: false,
         })
           .its('status')
@@ -954,7 +954,7 @@ describe('Events RabbitMQ', () => {
       it('verify valid request', function () {
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/post`,
+          url: `api/private/post`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -968,7 +968,7 @@ describe('Events RabbitMQ', () => {
         delete this.post.picture;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/post`,
+          url: `api/private/post`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -990,7 +990,7 @@ describe('Events RabbitMQ', () => {
         delete this.post.title;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/post`,
+          url: `api/private/post`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -1005,7 +1005,7 @@ describe('Events RabbitMQ', () => {
         delete this.post.text;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/post`,
+          url: `api/private/post`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -1020,7 +1020,7 @@ describe('Events RabbitMQ', () => {
         delete this.post.date;
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/post`,
+          url: `api/private/post`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -1035,7 +1035,7 @@ describe('Events RabbitMQ', () => {
         this.post.title = '';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/post`,
+          url: `api/private/post`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -1050,7 +1050,7 @@ describe('Events RabbitMQ', () => {
         this.post.text = '';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/post`,
+          url: `api/private/post`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -1065,7 +1065,7 @@ describe('Events RabbitMQ', () => {
         this.post.date = '20-04-2022T00:20:20:39';
         cy.request({
           method: 'POST',
-          url: `http://localhost:3000/api/private/post`,
+          url: `api/private/post`,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -1081,7 +1081,7 @@ describe('Events RabbitMQ', () => {
       it('GET Method', () => {
         cy.request({
           method: 'GET',
-          url: 'http://localhost:3000/api/private/post',
+          url: 'api/private/post',
           failOnStatusCode: false,
         })
           .its('status')
@@ -1091,7 +1091,7 @@ describe('Events RabbitMQ', () => {
       it('DELETE Method', () => {
         cy.request({
           method: 'DELETE',
-          url: 'http://localhost:3000/api/private/post',
+          url: 'api/private/post',
           failOnStatusCode: false,
         })
           .its('status')
@@ -1101,7 +1101,7 @@ describe('Events RabbitMQ', () => {
       it('PUT Method', () => {
         cy.request({
           method: 'PUT',
-          url: 'http://localhost:3000/api/private/post',
+          url: 'api/private/post',
           failOnStatusCode: false,
         })
           .its('status')
