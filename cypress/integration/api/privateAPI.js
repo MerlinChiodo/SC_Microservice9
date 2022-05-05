@@ -1,3 +1,5 @@
+const { isExportDeclaration } = require("typescript");
+
 // Private API
 describe('Private API', () => {
   // Event Register Refugee Tests
@@ -1106,6 +1108,141 @@ describe('Private API', () => {
         })
           .its('status')
           .should('eq', 405);
+      });
+    });
+  });
+
+  describe('Housing Administration', () => {
+    describe('api/private/housing/[id]', function () {
+      beforeEach(function () {
+        cy.fixture('events/housing').then((housing) => {
+          this.housing = housing;
+        });
+      });
+      it('GET valid query should return housing', function () {
+        cy.request('api/private/housing/1').should((response) => {
+          expect(response).property('status').to.equal(200);
+          expect(response.body).to.have.property('id');
+          expect(response.body).to.have.property('housing_type');
+          expect(response.body).to.have.property('people_assigned');
+          expect(response.body).to.have.property('people_limit');
+          expect(response.body).to.have.property('size');
+          expect(response.body).to.have.property('rent');
+          expect(response.body).to.have.property('address_id');
+        });
+      });
+
+      it('GET invalid query should return error', function () {
+        cy.request({ url: 'api/private/housing/0', failOnStatusCode: false }).should((response) => {
+          expect(response).property('status').to.equal(400);
+          expect(response.body).include('Invalid Housing ID');
+        });
+      });
+
+      it('POST valid query should return housing', function () {
+        cy.request({
+          method: 'POST',
+          url: `api/private/housing`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.housing,
+        }).should((response) => {
+          expect(response).property('status').to.equal(200);
+          expect(response.body).to.have.property('id');
+          expect(response.body).to.have.property('housing_type');
+          expect(response.body).to.have.property('people_assigned');
+          expect(response.body).to.have.property('people_limit');
+          expect(response.body).to.have.property('size');
+          expect(response.body).to.have.property('rent');
+          expect(response.body).to.have.property('address_id');
+        });
+      });
+
+      it('POST invalid query should return error', function () {
+        delete this.housing.housing.rent;
+        cy.request({
+          method: 'POST',
+          url: `api/private/housing`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: this.housing,
+          failOnStatusCode: false,
+        }).should((response) => {
+          expect(response).property('status').to.equal(400);
+          expect(response.body).include('Invalid Housing Data, please check JSON Schema');
+        });
+      });
+
+      it('PUT valid query should return housing', function () {
+        cy.request({
+          method: 'PUT',
+          url: `api/private/housing/1`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: { rent: 50.0 },
+        }).should((response) => {
+          expect(response).property('status').to.equal(200);
+          expect(response.body).to.have.property('id');
+          expect(response.body).to.have.property('housing_type');
+          expect(response.body).to.have.property('people_assigned');
+          expect(response.body).to.have.property('people_limit');
+          expect(response.body).to.have.property('size');
+          expect(response.body).to.have.property('rent');
+          expect(response.body).to.have.property('address_id');
+          expect(response.body).property('rent').to.equal(50.0);
+        });
+      });
+
+      it('PUT invalid query should return error', function () {
+        cy.request({
+          method: 'PUT',
+          url: `api/private/housing/1`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: { rent: 'free' },
+          failOnStatusCode: false,
+        }).should((response) => {
+          expect(response).property('status').to.equal(400);
+          expect(response.body).include('Invalid Housing Data, please check JSON Schema');
+        });
+      });
+
+      it('DELETE valid query should return housing', function () {
+        cy.request({
+          method: 'DELETE',
+          url: `api/private/housing/7`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).should((response) => {
+          expect(response).property('status').to.equal(200);
+          expect(response.body).include('Housing deleted');
+        });
+      });
+
+      it('DELETE invalid query should return housing', function () {
+        cy.request({
+          method: 'DELETE',
+          url: `api/private/housing/1`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          failOnStatusCode: false,
+        }).should((response) => {
+          expect(response).property('status').to.equal(500);
+          expect(response.body).include('Internal Database Server Error');
+        });
+      });
+
+      it('GET ALL valid query should return housing list', function () {
+        cy.request('api/private/housing/').should((response) => {
+          expect(response).property('status').to.equal(200);
+          expect(response).property('body').to.be.an('array');
+        });
       });
     });
   });

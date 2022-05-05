@@ -90,6 +90,17 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
     info: 'Public Apartment from the city center',
     address_id: 3,
   },
+  {
+    housing_type: 'X117',
+    people_assigned: 0,
+    people_limit: 1,
+    size: 20.0,
+    shared_bathrooom: false,
+    rooms: 1,
+    rent: 0.0,
+    info: 'Public Apartment from the city center',
+    address_id: 3,
+  },
 ];
 
 const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
