@@ -10,31 +10,31 @@ export function generateQRCode(firstname: string, lastname: string) {
 export function assignHousing(amount: number) {
   return new Promise<number>(async (resolve, reject) => {
     let housing: any =
-      await prisma.$queryRaw`SELECT id FROM Housing WHERE (people_limit - people_assigned) = ${amount} LIMIT 1`;
-
-    if (!housing) {
+      await prisma.$queryRaw`SELECT id FROM Housing WHERE ((people_limit - people_assigned) = ${amount}) LIMIT 1`;
+    if (housing.length < 1) {
       housing =
         await prisma.$queryRaw`SELECT id FROM Housing WHERE (people_limit - people_assigned) = ${
           amount + 1
         } LIMIT 1`;
     }
 
-    if (!housing) {
+    if (housing.length < 1) {
       housing =
         await prisma.$queryRaw`SELECT id FROM Housing WHERE (people_limit - people_assigned) = ${
           amount + 2
         } LIMIT 1`;
     }
 
-    if (!housing) {
+    if (housing.length < 1) {
       housing =
         await prisma.$queryRaw`SELECT id FROM Housing WHERE (people_limit - people_assigned) >= ${amount} LIMIT 1`;
     }
 
-    if (!housing) {
+    if (housing.length < 1) {
       reject('No housing available');
+    } else {
+      resolve(housing[0].id);
     }
-    resolve(housing[0].id);
   });
 }
 

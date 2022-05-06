@@ -33,7 +33,6 @@ export default function registerHandler(req: NextApiRequest, res: NextApiRespons
       assignHousing(1)
         .then((id) => {
           housing_id = id;
-          console.log(id)
           prisma.refugee
             .create({
               data: { ...req.body, qr_code: qr_code, housing_id: housing_id },
@@ -48,7 +47,6 @@ export default function registerHandler(req: NextApiRequest, res: NextApiRespons
                 );
             })
             .catch((err) => {
-              console.log(err);
               res.status(500).end('Error creating refugee');
             });
         })

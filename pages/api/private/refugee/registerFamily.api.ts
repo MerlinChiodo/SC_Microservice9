@@ -20,7 +20,6 @@ export default function registerFamilyHandler(req: NextApiRequest, res: NextApiR
         const refugeeFamily = registerFamily(req.body);
         res.status(200).json(refugeeFamily);
       } catch (err) {
-        console.log(err);
         res.status(500).end('Error Register Family, please contact support team');
       }
       break;
