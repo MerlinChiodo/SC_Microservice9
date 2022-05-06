@@ -22,20 +22,53 @@ export default async function housingHandler(req: NextApiRequest, res: NextApiRe
         res.status(400).end('Invalid Housing Data, please check JSON Schema');
         return;
       }
-      // create new housing
-      await prisma.housing
-        .create({
-          data: {
-            ...req.body.housing,
-            address: {
-              create: {
-                ...req.body.address,
+      // check if address already in db
+      let address;
+      try {
+        address = await prisma.address.findFirst({
+          where: {
+            AND: [
+              { house_number: req.body.address.house_number },
+              { street: req.body.address.street },
+              { city_code: req.body.address.city_code },
+            ],
+          },
+        });
+      } catch (err) {
+        res.status(500).end('Interal Database Server Error');
+        break;
+      }
+      // set to zero if not set in request
+      if (!req.body.housing.people_assigned) {
+        req.body.housing.people_assigned = 0;
+      }
+      if (address) {
+        // create new housing
+        await prisma.housing
+          .create({
+            data: {
+              ...req.body.housing,
+              address_id: address.id,
+            },
+          })
+          .then((housing) => res.status(200).json(housing))
+          .catch(() => res.status(500).end('Internal Database Server Error'));
+      } else {
+        // create new housing
+        await prisma.housing
+          .create({
+            data: {
+              ...req.body.housing,
+              address: {
+                create: {
+                  ...req.body.address,
+                },
               },
             },
-          },
-        })
-        .then((housing) => res.status(200).json(housing))
-        .catch(() => res.status(500).end('Internal Database Server Error'));
+          })
+          .then((housing) => res.status(200).json(housing))
+          .catch(() => res.status(500).end('Internal Database Server Error'));
+      }
       break;
     default:
       res.setHeader('Allow', ['GET', 'POST']);
