@@ -43,8 +43,7 @@ export default async function donateHandler(req: NextApiRequest, res: NextApiRes
             res.status(200).json(donation);
           }
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           res.status(500).end('Internal Database Server Error');
         });
       break;
