@@ -3,6 +3,7 @@ import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import { HousingPUTSchema } from './jsonSchema';
 import { prisma } from '../../../../lib/prisma';
+import auth from '../../../../lib/auth';
 
 export default async function housingHandler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
@@ -15,6 +16,11 @@ export default async function housingHandler(req: NextApiRequest, res: NextApiRe
 
   const ajv = new Ajv({ allErrors: true });
   addFormats(ajv);
+
+  req.cookies.token = 'test';
+  if (!auth(req.cookies.token)) {
+    res.status(403).end(`No Authorization`);
+  }
 
   switch (method) {
     case 'GET':
@@ -67,7 +73,7 @@ export default async function housingHandler(req: NextApiRequest, res: NextApiRe
           }
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           res.status(500).end('Internal Database Server Error');
         });
       break;

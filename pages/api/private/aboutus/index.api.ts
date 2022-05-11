@@ -3,11 +3,17 @@ import amqp from 'amqplib/callback_api';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import { AboutUsDataSchema, AboutUsRabbitMQSchema } from './jsonSchema';
+import auth from '../../../../lib/auth';
 
 export default function aboutUsHandler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
   const ajv = new Ajv({ allErrors: true });
   addFormats(ajv);
+
+  req.cookies.token = 'test';
+  if (!auth(req.cookies.token)){
+      res.status(403).end(`No Authorization`);
+  } 
 
   switch (method) {
     case 'POST':

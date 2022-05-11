@@ -4,11 +4,17 @@ import addFormats from 'ajv-formats';
 import { prisma } from '../../../../lib/prisma';
 import { PostSchema } from './jsonSchema';
 import newPostEventHandler from './event';
+import auth from '../../../../lib/auth';
 
 export default function newPostHandler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
   const ajv = new Ajv({ allErrors: true });
   addFormats(ajv);
+
+  req.cookies.token = 'test';
+  if (!auth(req.cookies.token)){
+      res.status(403).end(`No Authorization`);
+  } 
 
   switch (method) {
     case 'POST':
