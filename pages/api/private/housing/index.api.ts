@@ -11,9 +11,10 @@ export default async function housingHandler(req: NextApiRequest, res: NextApiRe
   addFormats(ajv);
 
   req.cookies.token = 'test';
-  if (!auth(req.cookies.token)){
-      res.status(403).end(`No Authorization`);
-  } 
+  if (!auth(req.cookies.token)) {
+    res.status(403).end(`No Authorization`);
+    return;
+  }
 
   switch (method) {
     case 'GET':

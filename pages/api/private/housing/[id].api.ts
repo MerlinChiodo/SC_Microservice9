@@ -20,6 +20,7 @@ export default async function housingHandler(req: NextApiRequest, res: NextApiRe
   req.cookies.token = 'test';
   if (!auth(req.cookies.token)) {
     res.status(403).end(`No Authorization`);
+    return;
   }
 
   switch (method) {

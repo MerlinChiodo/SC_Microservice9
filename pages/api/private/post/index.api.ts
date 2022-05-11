@@ -12,9 +12,10 @@ export default function newPostHandler(req: NextApiRequest, res: NextApiResponse
   addFormats(ajv);
 
   req.cookies.token = 'test';
-  if (!auth(req.cookies.token)){
-      res.status(403).end(`No Authorization`);
-  } 
+  if (!auth(req.cookies.token)) {
+    res.status(403).end(`No Authorization`);
+    return;
+  }
 
   switch (method) {
     case 'POST':

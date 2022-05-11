@@ -12,9 +12,10 @@ export default function kitaHandler(req: NextApiRequest, res: NextApiResponse) {
   addFormats(ajv);
 
   req.cookies.token = 'test';
-  if (!auth(req.cookies.token)){
-      res.status(403).end(`No Authorization`);
-  } 
+  if (!auth(req.cookies.token)) {
+    res.status(403).end(`No Authorization`);
+    return;
+  }
 
   switch (method) {
     case 'POST':
@@ -37,7 +38,7 @@ export default function kitaHandler(req: NextApiRequest, res: NextApiResponse) {
         .then(() => {
           // create record about application in db
           prisma.kitaApplication
-            .create({ data: {date: req.body.date, refugee_id: req.body.child.refugee_id,}})
+            .create({ data: { date: req.body.date, refugee_id: req.body.child.refugee_id } })
             .then((kita) => res.status(200).json(kita))
             .catch(() => res.status(500).end('Internal Database Server Error'));
         })
