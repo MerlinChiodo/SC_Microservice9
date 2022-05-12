@@ -13,12 +13,15 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      RABBITMQ_URL: ${{ secrets.RABBITMQ_URL }}
+      TESTING: true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cypress run with env
         uses: cypress-io/github-action@v2
         with:
+          reset: npx prisma migrate reset -f
           build: npm run build
           start: npm run start
           wait-on: http://localhost:3000

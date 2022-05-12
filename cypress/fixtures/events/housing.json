@@ -1,0 +1,14 @@
+{
+  "housing": {
+    "housing_type": "C318",
+    "people_assigned": 0,
+    "people_limit": 3,
+    "size": 60.0,
+    "rent": 0.0
+  },
+  "address": {
+    "house_number": 25,
+    "street": "Musterweg",
+    "city_code": 33223
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "date": "2022-01-01T00:00:00.000Z",
+  "care_time": 30,
+  "child": {
+    "citizen_id": 2,
+    "refugee_id": 3
+  },
+  "parent": {
+    "citizen_id": 1,
+    "refugee_id": 1
+  }
+}
