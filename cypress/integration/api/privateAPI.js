@@ -1246,4 +1246,47 @@ describe('Private API', () => {
       });
     });
   });
+
+  describe('Employee Route', () => {
+    describe('Valid Route tests', function () { 
+      it('GET ALL valid query should return employee list', function () {
+        cy.request('api/private/employee').should((response) => {
+          expect(response).property('status').to.equal(200);
+          expect(response).property('body').to.be.an('array');
+        });
+      });
+    });
+
+    describe('Verify Wrong Method Types', () => {
+      it('POST Method', () => {
+        cy.request({
+          method: 'POST',
+          url: 'api/private/employee',
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 405);
+      });
+
+      it('DELETE Method', () => {
+        cy.request({
+          method: 'DELETE',
+          url: 'api/private/employee',
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 405);
+      });
+
+      it('PUT Method', () => {
+        cy.request({
+          method: 'PUT',
+          url: 'api/private/employee',
+          failOnStatusCode: false,
+        })
+          .its('status')
+          .should('eq', 405);
+      });
+    });
+  });
 });
