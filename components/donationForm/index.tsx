@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, useRef } from 'react';
 import { PaymentIntent } from '@stripe/stripe-js';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 import { fetchPostJSON } from 'util/api-helpers';
@@ -7,6 +7,7 @@ import * as config from 'lib/stripe/config';
 import StripeTestCards from './StripeTestCards';
 import PrintObject from './PrintObject';
 import CustomDonationInput from './CustomDonationInput';
+import { useAuth } from 'context/auth';
 
 const DonationForm: FC<{
   paymentIntent?: PaymentIntent | null;
@@ -24,6 +25,7 @@ const DonationForm: FC<{
   const [errorMessage, setErrorMessage] = useState('');
   const stripe = useStripe();
   const elements = useElements();
+  const auth = useAuth();
 
   const PaymentStatus = ({ status }: { status: string }) => {
     switch (status) {
@@ -117,6 +119,7 @@ const DonationForm: FC<{
               className="elements-style"
               type="Text"
               name="cardholderName"
+              value={auth.user ? auth.user.firstname + ' ' + auth.user.lastname : ''}
               onChange={handleInputChange}
               required
             />
