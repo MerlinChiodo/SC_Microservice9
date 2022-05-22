@@ -23,5 +23,7 @@ export const useStyles = createStyles((theme) => ({
     gap: '30px',
   },
   avatar: {
+    width: '150px',
+    height: '150px',
   },
 }));

@@ -4,7 +4,7 @@ export interface Employee {
   room: string;
   phone: string;
   email: string;
-  picture: string;
+  avatar_path: string;
 }
 
 export interface User {
