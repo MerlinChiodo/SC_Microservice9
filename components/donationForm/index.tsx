@@ -16,6 +16,7 @@ const DonationForm: FC<{
     ? formatAmountFromStripe(paymentIntent.amount, paymentIntent.currency)
     : Math.round(config.MAX_AMOUNT / config.AMOUNT_STEP);
 
+  const auth = useAuth();
   const [input, setInput] = useState({
     customDonation: defaultAmount,
     cardholderName: '',
@@ -25,7 +26,6 @@ const DonationForm: FC<{
   const [errorMessage, setErrorMessage] = useState('');
   const stripe = useStripe();
   const elements = useElements();
-  const auth = useAuth();
 
   const PaymentStatus = ({ status }: { status: string }) => {
     switch (status) {
@@ -49,11 +49,12 @@ const DonationForm: FC<{
     }
   };
 
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setInput({
       ...input,
       [e.currentTarget.name]: e.currentTarget.value,
     });
+  };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -61,6 +62,10 @@ const DonationForm: FC<{
     if (!e.currentTarget.reportValidity()) return;
     if (!elements) return;
     setPayment({ status: 'processing' });
+
+    if (auth.user && input.cardholderName == '') {
+      setInput({ ...input, cardholderName: auth.user.firstname + ' ' + auth.user.lastname });
+    }
 
     // Create a PaymentIntent with the specified amount.
     const response = await fetchPostJSON('/api/private/donation/payment_intents', {
@@ -119,7 +124,7 @@ const DonationForm: FC<{
               className="elements-style"
               type="Text"
               name="cardholderName"
-              value={auth.user ? auth.user.firstname + ' ' + auth.user.lastname : ''}
+              defaultValue={auth.user ? auth.user.firstname + ' ' + auth.user.lastname : ''}
               onChange={handleInputChange}
               required
             />
