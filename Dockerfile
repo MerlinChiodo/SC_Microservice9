@@ -9,6 +9,7 @@ RUN npm ci
 # Rebuild the source code only when needed
 FROM node:16-alpine AS builder
 WORKDIR /app
+ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_51KHvjaFD8xFupH7timaCsrS8mY96EHggB30po8IbYitf8fHYoAmIjFwHOuVCigCLHkrVJone1S5IoOV6ODItLaJm00RcYRV3FV
 COPY --from=deps /app/node_modules ./node_modules
 
 RUN npx prisma generate
@@ -38,7 +39,6 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/prisma ./prisma
 
 # Automatically leverage output traces to reduce image size 
 # https://nextjs.org/docs/advanced-features/output-file-tracing
