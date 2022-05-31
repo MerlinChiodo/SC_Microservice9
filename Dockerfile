@@ -11,11 +11,10 @@ FROM node:16-alpine AS builder
 WORKDIR /app
 ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_51KHvjaFD8xFupH7timaCsrS8mY96EHggB30po8IbYitf8fHYoAmIjFwHOuVCigCLHkrVJone1S5IoOV6ODItLaJm00RcYRV3FV
 COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
 RUN npx prisma generate
 RUN npm run build
-
-COPY . .
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
