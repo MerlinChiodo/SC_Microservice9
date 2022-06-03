@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { formatAmountForStripe } from 'util/stripe-helper';
+import { formatAmountForStripe } from 'util/stripe/';
+import { customError, methodNotAllowed } from 'util/api/util';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -8,17 +9,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 const CURRENCY = 'eur';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    res.status(405).end('Method Not Allowed');
-    return;
-  }
+  if (req.method !== 'POST') return methodNotAllowed(res);
+
   const { amount, payment_intent_id }: { amount: number; payment_intent_id?: string } = req.body;
   // Validate the amount that was passed from the client.
-  if (!(amount >= 5 && amount <= 5000)) {
-    res.status(500).json({ statusCode: 400, message: 'Invalid amount.' });
-    return;
-  }
+  if (!(amount >= 5 && amount <= 5000)) return customError(res, 400, 'Invalid amount');
   if (payment_intent_id) {
     try {
       const current_intent = await stripe.paymentIntents.retrieve(payment_intent_id);
@@ -33,8 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } catch (e) {
       if ((e as any).code !== 'resource_missing') {
         const errorMessage = e instanceof Error ? e.message : 'Internal server error';
-        res.status(500).json({ statusCode: 500, message: errorMessage });
-        return;
+        return customError(res, 500, errorMessage);
       }
     }
   }
@@ -53,6 +47,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json(payment_intent);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : 'Internal server error';
-    res.status(500).json({ statusCode: 500, message: errorMessage });
+    return customError(res, 500, errorMessage);
   }
 }
