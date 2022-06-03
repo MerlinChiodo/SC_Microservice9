@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient, Prisma, Post } from '@prisma/client';
 import { readFileSync } from 'fs';
 
 const prisma = new PrismaClient();
@@ -26,9 +26,8 @@ const addressData: Prisma.AddressCreateInput[] = [
 const housingData: Prisma.HousingUncheckedCreateInput[] = [
   {
     housing_type: 'C117',
-    people_assigned: 0,
-    people_limit: 2,
-    size: 50.0,
+    people_limit: 8,
+    size: 200.0,
     shared_bathrooom: false,
     rooms: 1,
     rent: 0.0,
@@ -37,7 +36,6 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   },
   {
     housing_type: 'A114',
-    people_assigned: 0,
     people_limit: 4,
     size: 100.0,
     shared_bathrooom: true,
@@ -48,7 +46,6 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   },
   {
     housing_type: 'X99',
-    people_assigned: 0,
     people_limit: 1,
     size: 20.0,
     shared_bathrooom: false,
@@ -59,7 +56,6 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   },
   {
     housing_type: 'X98',
-    people_assigned: 0,
     people_limit: 1,
     size: 20.0,
     shared_bathrooom: false,
@@ -70,7 +66,6 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   },
   {
     housing_type: 'X86',
-    people_assigned: 0,
     people_limit: 1,
     size: 20.0,
     shared_bathrooom: false,
@@ -81,7 +76,6 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   },
   {
     housing_type: 'X87',
-    people_assigned: 0,
     people_limit: 1,
     size: 20.0,
     shared_bathrooom: false,
@@ -92,7 +86,6 @@ const housingData: Prisma.HousingUncheckedCreateInput[] = [
   },
   {
     housing_type: 'X117',
-    people_assigned: 0,
     people_limit: 1,
     size: 20.0,
     shared_bathrooom: false,
@@ -110,11 +103,9 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     email: 'mcorder0@hp.com',
     date_of_birth: new Date('1962-05-01'),
     nationality: 'Spain',
-    language: 'Romanian',
+    qr_code: '123',
     document: file,
-    qr_code: '30faa907c26e43e05b85b7ab6ff73c94',
     phone: '410-936-6708',
-    housing_id: 1,
   },
   {
     firstname: 'Garik',
@@ -122,11 +113,8 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     email: 'gbuffin1@ask.com',
     date_of_birth: new Date('1963-08-01'),
     nationality: 'United States',
-    language: 'Luxembourgish',
     document: file,
-    qr_code: '8f8ac43b04d7080b6644d6ccb4f9ca1d',
     phone: '856-719-1398',
-    housing_id: 1,
   },
   {
     firstname: 'Arte',
@@ -134,11 +122,8 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     email: 'aarpino2@shop-pro.jp',
     date_of_birth: new Date('1989-05-01'),
     nationality: 'Portugal',
-    language: 'Telugu',
     document: file,
-    qr_code: '2593ebb5c8d410b1713c31c1cc4f316a',
     phone: '568-273-3445',
-    housing_id: 2,
   },
   {
     firstname: 'Laureen',
@@ -146,11 +131,8 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     email: 'lyoudell3@wix.com',
     date_of_birth: new Date('1977-05-01'),
     nationality: 'Portugal',
-    language: 'Pashto',
     document: file,
-    qr_code: '7f277cf8f9fc6b6cd0217e9070ff756f',
     phone: '624-866-2258',
-    housing_id: 2,
   },
   {
     firstname: 'Anna-diana',
@@ -158,11 +140,8 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     email: 'atruitt4@elegantthemes.com',
     date_of_birth: new Date('1978-05-01'),
     nationality: 'Sweden',
-    language: 'Bengali',
     document: file,
-    qr_code: '03c44d5cd5822f776ef0b7624b4721e0',
     phone: '904-160-5957',
-    housing_id: 2,
   },
   {
     firstname: 'Gaylord',
@@ -170,11 +149,8 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     email: 'ggoldstone5@github.com',
     date_of_birth: new Date('1992-05-01'),
     nationality: 'Sweden',
-    language: 'Icelandic',
     document: file,
-    qr_code: '471f8727876a2f154d66a360ef1f7b27',
     phone: '814-942-7392',
-    housing_id: 2,
   },
   {
     firstname: 'Vale',
@@ -182,11 +158,8 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     email: 'vfalkus6@yellowpages.com',
     date_of_birth: new Date('1974-05-01'),
     nationality: 'Portugal',
-    language: 'Sotho',
     document: file,
-    qr_code: '57c663ff94f0bf3407e001d661d40fb8',
     phone: '594-923-2637',
-    housing_id: 3,
   },
   {
     firstname: 'Nerti',
@@ -194,11 +167,8 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     email: 'nhasely7@dot.gov',
     date_of_birth: new Date('1990-05-01'),
     nationality: 'United States',
-    language: 'Dzongkha',
     document: file,
-    qr_code: 'c2c46e88f13db82f0ccdc7522bb18c0a',
     phone: '801-490-4941',
-    housing_id: 4,
   },
   {
     firstname: 'Jonathan',
@@ -206,11 +176,8 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     email: 'jchalfant8@nature.com',
     date_of_birth: new Date('1982-10-01'),
     nationality: 'United States',
-    language: 'Moldovan',
     document: file,
-    qr_code: '9bc7386b8e951386298115668b9ef498',
     phone: '415-295-4845',
-    housing_id: 5,
   },
   {
     firstname: 'Ricoriki',
@@ -218,11 +185,8 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     date_of_birth: new Date('1988-05-01'),
     email: 'rleyninye9@bbc.co.uk',
     nationality: 'Finland',
-    language: 'Swahili',
     document: file,
-    qr_code: '9256d1f2c8f8f4a73b7ca4fc6f1834f5',
     phone: '973-685-9561',
-    housing_id: 6,
   },
 ];
 
@@ -234,7 +198,7 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
     email: 'laura@afi.de',
     phone: '0251 999118',
     room: 'C118',
-    avatar_path: '/avatar/laura_schroeder.jpg',
+    avatar: '/avatar/laura_schroeder.jpg',
   },
   {
     id: 2,
@@ -243,7 +207,7 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
     email: 'stephanie@afi.de',
     phone: '0251 999119',
     room: 'C119',
-    avatar_path: '/avatar/stephanie_dietrich.jpg',
+    avatar: '/avatar/stephanie_dietrich.jpg',
   },
   {
     id: 3,
@@ -252,7 +216,7 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
     email: 'celine@afi.de',
     phone: '0251 9991200',
     room: 'C120',
-    avatar_path: '/avatar/celine_adler.jpg',
+    avatar: '/avatar/celine_adler.jpg',
   },
   {
     id: 4,
@@ -261,7 +225,7 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
     email: 'lukas@afi.de',
     phone: '0251 9991202',
     room: 'C120',
-    avatar_path: '/avatar/lukas_frei.jpg',
+    avatar: '/avatar/lukas_frei.jpg',
   },
   {
     id: 5,
@@ -270,7 +234,7 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
     email: 'daniel@afi.de',
     phone: '0251 9991202',
     room: 'C120',
-    avatar_path: '/avatar/daniel_neumann.jpg',
+    avatar: '/avatar/daniel_neumann.jpg',
   },
   {
     id: 6,
@@ -279,7 +243,7 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
     email: 'steffen@afi.de',
     phone: '0251 999115',
     room: 'C115',
-    avatar_path: '/avatar/steffen_schaefer.jpg',
+    avatar: '/avatar/steffen_schaefer.jpg',
   },
   {
     id: 7,
@@ -288,7 +252,7 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
     email: 'jooske@afi.de',
     phone: '0251 9991210',
     room: 'C121',
-    avatar_path: '/avatar/jooske_burgman.jpg',
+    avatar: '/avatar/jooske_burgman.jpg',
   },
   {
     id: 8,
@@ -297,7 +261,7 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
     email: 'sarah@afi.de',
     phone: '0251 9991211',
     room: 'C121',
-    avatar_path: '/avatar/sarah_sommer.jpg',
+    avatar: '/avatar/sarah_sommer.jpg',
   },
   {
     id: 9,
@@ -306,7 +270,7 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
     email: 'chirstin@afi.de',
     phone: '0251 9991212',
     room: 'C121',
-    avatar_path: '/avatar/christin_fenstermacher.jpg',
+    avatar: '/avatar/christin_fenstermacher.jpg',
   },
   {
     id: 10,
@@ -315,9 +279,36 @@ const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
     email: 'caro@afi.de',
     phone: '0251 999122',
     room: 'C122',
-    avatar_path: '/avatar/caro_fuchs.jpg',
+    avatar: '/avatar/caro_fuchs.jpg',
   },
 ];
+
+const postData: Prisma.PostUncheckedCreateInput[] = [
+  {
+    title: 'blog post 1010',
+    short_description: 'short description',
+    long_description: 'long description',
+    employee_id: 1,
+  },
+  {
+    title: 'some say',
+    short_description: 'short description',
+    long_description: 'long description',
+    employee_id: 1,
+  },
+  {
+    title: 'Lorem ipsum dolor sit amet',
+    short_description: 'short description',
+    long_description: 'long description',
+    employee_id: 2,
+  },
+  {
+    title: 'Lorem next js 101',
+    short_description: 'short description',
+    long_description: 'long description',
+    employee_id: 1,
+  }
+]
 
 async function main() {
   console.log(`Start seeding ...`);
@@ -344,6 +335,12 @@ async function main() {
       data: e,
     });
     console.log(`Created employee with id: ${refugee.id}`);
+  }
+  for (const p of postData) {
+    const post = await prisma.post.create({
+      data: p,
+    });
+    console.log(`Created post with id: ${post.id}`);
   }
   console.log(`Seeding finished.`);
 }

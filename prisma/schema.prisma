@@ -12,28 +12,21 @@ model Refugee {
   firstname       String
   lastname        String
   email           String
-  date_of_birth   DateTime          
+  date_of_birth   DateTime
   phone           String?
   nationality     String?
-  language        String?
   document        Bytes?
-  qr_code         String?           @unique
-  housing         Housing           @relation(fields: [housing_id], references: [id])
-  housing_id      Int
-  KitaApplication KitaApplication[]
-}
-
-model KitaApplication {
-  id         Int      @id @default(autoincrement())
-  date       DateTime @default(now())
-  Refugee    Refugee  @relation(fields: [refugee_id], references: [id])
-  refugee_id Int
+  qr_code         String?           @unique @default(cuid())
+  accepted        Boolean           @default(false)
+  family_tag      String?
+  housing         Housing?          @relation(fields: [housing_id], references: [id])
+  housing_id      Int?
 }
 
 model Housing {
   id               Int       @id @default(autoincrement())
   housing_type     String
-  people_assigned  Int
+  people_assigned  Int       @default(0)
   people_limit     Int
   size             Float
   shared_bathrooom Boolean?
@@ -52,31 +45,30 @@ model Address {
   street       String
   city_code    Int
   Housing      Housing[]
-}
 
-model Donation {
-  id         Int   @id @default(autoincrement())
-  amount     Float
-  citizen_id Int?
+  @@unique([house_number, street, city_code])
 }
 
 model Employee {
   id        Int     @id
   firstname String
   lastname  String
-  email     String?
+  email     String  @unique
   phone     String?
   room      String?
-  avatar_path String?
+  avatar    String?
   Post      Post[]
 }
 
 model Post {
-  id          Int      @id @default(autoincrement())
-  title       String?
-  text        String   @db.LongText
-  picture     String?
-  date        DateTime
-  employee    Employee @relation(fields: [employee_id], references: [id])
-  employee_id Int
+  id                Int       @id @default(autoincrement())
+  title             String
+  short_description String
+  long_description  String    @db.LongText
+  picture_url       String?
+  created_at        DateTime  @default(now())
+  published         Boolean   @default(false)
+  published_at      DateTime?
+  employee          Employee  @relation(fields: [employee_id], references: [id])
+  employee_id       Int
 }
