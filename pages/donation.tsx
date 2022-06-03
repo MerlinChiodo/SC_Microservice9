@@ -3,7 +3,7 @@ import Layout from 'components/layout';
 import getStripe from 'lib/stripe';
 import { PaymentIntent } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { fetchPostJSON } from 'util/api-helpers';
+import { fetchPostJSON } from 'util/api/fetch';
 import DonationForm from 'components/donationForm';
 import { Center, Loader } from '@mantine/core';
 
@@ -15,7 +15,7 @@ export default function Donation() {
   useEffect(() => {
     fetchPostJSON('/api/private/donation/payment_intents', {
       amount: Math.round(MAX_AMOUNT / AMOUNT_STEP),
-    }).then((data) => {
+    }).then((data: any) => {
       setPaymentIntent(data);
     });
   }, [setPaymentIntent]);

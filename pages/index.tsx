@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Employee } from 'util/interfaces/';
+import { Employee } from '@prisma/client';
 import { Loader, Title, SimpleGrid } from '@mantine/core';
 import Layout from 'components/layout';
 import TeamShowcase from 'components/teamShowcase';
-import { fetchGetJSON } from 'util/api-helpers';
+import { fetchGetJSON } from 'util/api/fetch';
 
 export default function Home() {
   const [employees, setEmployees] = useState<Employee[] | null>(null);
