@@ -1,0 +1,8 @@
+{
+  "child": {
+    "citizen_id": 2
+  },
+  "parent": {
+    "citizen_id": 1
+  }
+}

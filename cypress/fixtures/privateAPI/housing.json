@@ -1,10 +1,10 @@
 {
   "housing": {
     "housing_type": "C318",
-    "people_assigned": 0,
     "people_limit": 3,
     "size": 60.0,
-    "rent": 0.0
+    "rent": 0.0,
+    "citizen_id": 1
   },
   "address": {
     "house_number": 25,
