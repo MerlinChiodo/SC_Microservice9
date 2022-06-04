@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from 'lib/prisma';
-import { customError, notAuthenticated, notFound } from 'util/api/util';
+import { badRequest, customError, notAuthenticated, notFound } from 'util/api/util';
 import { eventHandler } from 'util/rabbitmq';
 import auth from 'lib/auth';
 
@@ -12,9 +12,11 @@ const eventData = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!(await auth(req.cookies.token))) return notAuthenticated(res);
-  const refugeeId = req.query.id as string | undefined;
+  const refugeeId = Number(req.query.id) as number;
+  if (refugeeId === Number.NaN) return badRequest(res);
 
-  const refugee = await prisma.refugee.findUnique({ where: { id: Number(refugeeId) } });
+
+  const refugee = await prisma.refugee.findUnique({ where: { id: refugeeId } });
 
   if (refugee) {
     await prisma.refugee.update({ where: { id: refugee.id }, data: { accepted: true } });

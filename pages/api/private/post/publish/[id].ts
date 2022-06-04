@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from 'lib/prisma';
-import { notAuthenticated, customError, notFound, success } from 'util/api/util';
+import { badRequest, notAuthenticated, customError, notFound, success } from 'util/api/util';
 import { eventHandler } from 'util/rabbitmq';
 import auth from 'lib/auth';
 
@@ -12,15 +12,16 @@ const eventData = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!(await auth(req.cookies.token))) return notAuthenticated(res);
-  const postId = req.query.id as string | undefined;
+  const postId = Number(req.query.id) as number;
+  if (postId === Number.NaN) return badRequest(res);
 
   const post = await prisma.post.findUnique({
-    where: { id: Number(postId) },
+    where: { id: postId },
     select: { title: true, short_description: true, long_description: true, picture_url: true },
   });
   if (post) {
     await prisma.post.update({
-      where: { id: Number(postId) },
+      where: { id: postId },
       data: { published: true, published_at: new Date().toISOString() },
     });
 
