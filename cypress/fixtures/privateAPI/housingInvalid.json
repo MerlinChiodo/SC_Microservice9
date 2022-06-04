@@ -2,8 +2,7 @@
   "housing": {
     "housing_type": "C318",
     "size": 60.0,
-    "rent": 0.0,
-    "citizen_id": 1
+    "rent": 0.0
   },
   "address": {
     "house_number": 25,

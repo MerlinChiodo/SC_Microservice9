@@ -51,9 +51,10 @@ export const NewHousingREST: JSONSchemaType<Housing> = {
         citizen_id: {
           type: 'number',
           minimum: 1,
+          nullable: true,
         },
       },
-      required: ['housing_type', 'size', 'rent', 'people_limit', 'citizen_id'],
+      required: ['housing_type', 'size', 'rent', 'people_limit'],
       additionalProperties: false,
     },
     address: {

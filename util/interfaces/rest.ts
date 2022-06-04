@@ -13,7 +13,7 @@ export interface Housing {
     rooms?: number;
     rent: number;
     info?: string;
-    citizen_id: number;
+    citizen_id?: number;
   };
   address: {
     house_number: number;
