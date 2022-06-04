@@ -17,6 +17,9 @@ export const eventHandler = (event: Event) => {
       const ex = 'events';
       ch.publish(ex, 'private.integration', Buffer.from(JSON.stringify(event)));
     });
-    conn.close();
+
+    setTimeout(() => {
+      conn.close();
+    }, 500);
   });
 };
