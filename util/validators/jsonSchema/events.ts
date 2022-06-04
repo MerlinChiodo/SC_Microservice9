@@ -31,9 +31,13 @@ export const AboutUsUpdateEvent: JSONSchemaType<AboutUsUpdate> = {
       type: 'string',
       format: 'date-time',
     },
+    url: {
+      type: 'string',
+    },
     about_us: {
       type: 'string',
       minLength: 1,
+      nullable: true,
     },
     picture: {
       type: 'string',
@@ -41,7 +45,7 @@ export const AboutUsUpdateEvent: JSONSchemaType<AboutUsUpdate> = {
       nullable: true,
     },
   },
-  required: ['event_id', 'event_name', 'service_name', 'date', 'about_us'],
+  required: ['event_id', 'event_name', 'service_name', 'date', 'url'],
   additionalProperties: false,
 };
 

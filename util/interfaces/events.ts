@@ -10,7 +10,8 @@ export interface AboutUsUpdate {
   event_name: string;
   service_name: string;
   date: string;
-  about_us: string;
+  url: string;
+  about_us?: string;
   picture?: string;
 }
 
