@@ -13,7 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method == 'POST') {
-    console.log('req body', req.body)
     const error = validatorREST(req.body, 'newHousing');
     if (error) return customError(res, error.code, error.message);
     await prisma.housing.create({

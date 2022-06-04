@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
     const email = req.query.email as string | undefined;
     const employee = await prisma.employee.findUnique({ where: { email: email } });
-    console.log(employee)
     return res.status(200).json(employee);
   }
   return methodNotAllowed(res);
