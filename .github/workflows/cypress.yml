@@ -18,10 +18,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Reset
+        uses: actions/setup-node@v3
+        run: npx prisma migrate reset -f
       - name: Cypress run with env
         uses: cypress-io/github-action@v2
         with:
-          reset: npx prisma migrate reset -f
           build: npm run build
           start: npm run start
           wait-on: http://localhost:3000
