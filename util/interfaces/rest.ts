@@ -24,8 +24,8 @@ export interface Housing {
 
 export interface Kita {
   care_time: number;
-  child: { citizen_id: number; refugee_id: number };
-  parent: { citizen_id: number; refugee_id: number };
+  child: { citizen_id: number };
+  parent: { citizen_id: number };
 }
 
 export interface Post {

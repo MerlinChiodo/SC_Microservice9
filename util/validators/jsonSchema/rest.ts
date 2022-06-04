@@ -101,12 +101,8 @@ export const KitaREST: JSONSchemaType<Kita> = {
           type: 'number',
           minimum: 1,
         },
-        refugee_id: {
-          type: 'integer',
-          minimum: 1,
-        },
       },
-      required: ['citizen_id', 'refugee_id'],
+      required: ['citizen_id'],
     },
     parent: {
       type: 'object',
@@ -115,12 +111,8 @@ export const KitaREST: JSONSchemaType<Kita> = {
           type: 'number',
           minimum: 1,
         },
-        refugee_id: {
-          type: 'integer',
-          minimum: 1,
-        },
       },
-      required: ['citizen_id', 'refugee_id'],
+      required: ['citizen_id'],
     },
   },
   required: ['child', 'parent'],
