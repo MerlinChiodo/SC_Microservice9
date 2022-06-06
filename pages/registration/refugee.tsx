@@ -1,135 +1,90 @@
 import { useState } from 'react';
-import { useForm } from '@mantine/form';
-import { Button, Center, Grid, Group, Text } from '@mantine/core';
+import { Center, Text, Title, Paper } from '@mantine/core';
+import { fetchPostJSON } from 'util/api/fetch';
+import { Refugee } from '@prisma/client';
 import Layout from 'components/layout';
-import LabelInput from 'components/input/LabelInput';
-import Dropbox from 'components/dropzone';
+import RegisterForm from 'components/registerForm/singleForm';
+import PersonalQRCode from 'components/qrcode';
 
-const handleSubmit = (values: any) => {
-  // var reader = new FileReader();
-  // reader.readAsText(values.document, 'base64');
-  // reader.onload = function (file) {
-  //   values.document = file.target!.result;
-  // };
-  console.log(values);
-};
+export default function RefugeePage() {
+  const [error, setError] = useState(false);
+  const [refugee, setRefugee] = useState<Refugee | null>();
 
-export default function Refugee() {
-  const [documentFile, setDocumentFile] = useState();
-  const form = useForm({
-    initialValues: {
-      firstname: '',
-      lastname: '',
-      date_of_birth: '',
-      email: '',
-      phone: '',
-      nationality: '',
-      language: '',
-    },
-  });
+  const fetchRefugee = async (values: any) => {
+    await fetchPostJSON('/api/private/register', values)
+      .then((res) => {
+        setRefugee(res);
+      })
+      .catch((err) => {
+        setError(true);
+      });
+  };
 
-  return (
-    <Layout>
-      <Center>
-        <h1>Refugee</h1>
-      </Center>
-      <Center>
-        <form
-          onSubmit={form.onSubmit((values) => handleSubmit({ ...values, document: documentFile }))}
+  const handleSubmit = async (values: any) => {
+    // remove empty values
+    values = Object.fromEntries(Object.entries(values).filter(([_, v]) => v !== ''));
+
+    // set Date to IsoString
+    values.date_of_birth = values.date_of_birth.toISOString();
+
+    // file to Buffer
+    if (values.document) {
+      var reader = new FileReader();
+      reader.readAsBinaryString(values.document);
+      reader.onload = function () {
+        const result = reader.result;
+        if (typeof result === 'string') {
+          values = { ...values, document: Buffer.from(result) };
+        }
+        fetchRefugee(values);
+      };
+    } else {
+      fetchRefugee(values);
+    }
+  };
+
+  if (error) {
+    return (
+      <Layout>
+        <Center>
+          <Text size="xl" weight={600} color="dimmed" sx={{ letterSpacing: 3 }}>
+            Error occure. Please contact support team or try later again.
+          </Text>
+        </Center>
+      </Layout>
+    );
+  } else if (refugee) {
+    return (
+      <Layout>
+        <Title sx={{ fontSize: '300%' }} m="xl" p="xl" align="center">
+          Registration successful
+        </Title>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
-          <Grid m="xl">
-            <Grid.Col span={6}>
-              <LabelInput
-                label={'Firstname'}
-                type={'text'}
-                placeholder={'Enter firstname'}
-                required={true}
-                form={form}
-                formLabel={'firstname'}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <LabelInput
-                label={'Lastname'}
-                type={'text'}
-                placeholder={'Enter lastname'}
-                required={true}
-                form={form}
-                formLabel={'lastname'}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <LabelInput
-                label={'Date of birth'}
-                type={'date'}
-                placeholder={'Enter date of brith'}
-                required={true}
-                form={form}
-                formLabel={'date_of_birth'}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <LabelInput
-                label={'Email'}
-                type={'email'}
-                placeholder={'Enter email'}
-                required={true}
-                form={form}
-                formLabel={'email'}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <LabelInput
-                label={'Phone'}
-                type={'Text'}
-                placeholder={'Enter phone nubmer'}
-                required={false}
-                form={form}
-                formLabel={'phone'}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <LabelInput
-                label={'Nationality'}
-                type={'Text'}
-                placeholder={'Enter nationality'}
-                required={false}
-                form={form}
-                formLabel={'nationality'}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <LabelInput
-                label={'Language'}
-                type={'Text'}
-                placeholder={'Enter language'}
-                required={false}
-                form={form}
-                formLabel={'language'}
-              />
-            </Grid.Col>
-            <Grid.Col span={12}>
-              <Text size="sm">
-                Document{' '}
-                <Text size="sm" component="span" color="red">
-                  *
-                </Text>
-              </Text>
-              <Dropbox
-                handleUpload={(file: any) => {
-                  console.log(file[0]);
-                  setDocumentFile(file[0]);
-                }}
-              />
-            </Grid.Col>
-          </Grid>
-          <Center>
-            <Group position="right" mt="md">
-              <Button type="submit">Submit</Button>
-            </Group>
-          </Center>
-        </form>
-      </Center>
-    </Layout>
-  );
+          <Text size="xl" transform="uppercase" sx={{ letterSpacing: 5 }}>
+            {refugee.firstname + ' ' + refugee.lastname}
+          </Text>
+          <PersonalQRCode qrcode={refugee.qr_code!} />
+          <Text color="dimmed">Your QR-Code will be active in 24 hours.</Text>
+        </div>
+      </Layout>
+    );
+  } else {
+    return (
+      <Layout>
+        <Title align="center">Register</Title>
+        <Center>
+          <Paper withBorder m="xl" shadow="md" sx={{ maxWidth: 1000 }}>
+            <RegisterForm handleSubmit={handleSubmit} />
+          </Paper>
+        </Center>
+      </Layout>
+    );
+  }
 }

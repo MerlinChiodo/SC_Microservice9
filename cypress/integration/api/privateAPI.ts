@@ -21,8 +21,12 @@ describe('Private API', () => {
         body: this.refugee,
       }).should((response) => {
         expect(response).property('status').to.equal(200);
-        expect(response.body).to.have.property('message');
-        expect(response.body.message).to.equal('success');
+        expect(response.body).to.have.property('id');
+        expect(response.body).to.have.property('firstname');
+        expect(response.body).to.have.property('lastname');
+        expect(response.body).to.have.property('date_of_birth');
+        expect(response.body).to.have.property('email');
+        expect(response.body).to.have.property('qr_code');
       });
     });
 
