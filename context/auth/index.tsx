@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useMemo } from 'react';
-import type { User } from 'util/interfaces';
+import type { User } from 'util/interfaces/auth';
 
 interface AuthContext {
   user: User | null;
@@ -7,10 +7,13 @@ interface AuthContext {
   login: Function;
 }
 
-const AuthContext = React.createContext<AuthContext>({user: null, logout: () => {}, login: () => {}});
+const AuthContext = React.createContext<AuthContext>({
+  user: null,
+  logout: () => {},
+  login: () => {},
+});
 
 export const useAuth = () => useContext(AuthContext);
-
 
 export function AuthProvider({ children }: { children: React.ReactNode }): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
@@ -20,16 +23,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }): JSX.E
   };
 
   const login = () => {
-    setUser({ firstname: 'Hans', lastname: 'Bauer', email: 'hans@bauer.com' });
-  }
+    setUser({ firstname: 'Jooske', lastname: 'Burgman', email: 'jooske@afi.de' });
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     //check token & get user infos
     if (token) {
-      login()
+      login();
     } else {
-      logout()
+      logout();
     }
   }, [setUser]);
 
@@ -42,5 +45,5 @@ export function AuthProvider({ children }: { children: React.ReactNode }): JSX.E
     [user]
   );
 
-return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;
 }

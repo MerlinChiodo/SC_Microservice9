@@ -1,8 +1,8 @@
 import React, { useState, FC, useRef } from 'react';
 import { PaymentIntent } from '@stripe/stripe-js';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
-import { fetchPostJSON } from 'util/api-helpers';
-import { formatAmountFromStripe, formatAmountForDisplay } from 'util/stripe-helper';
+import { fetchPostJSON } from 'util/api/fetch';
+import { formatAmountFromStripe, formatAmountForDisplay } from 'util/stripe/';
 import * as config from 'lib/stripe/config';
 import StripeTestCards from './StripeTestCards';
 import PrintObject from './PrintObject';

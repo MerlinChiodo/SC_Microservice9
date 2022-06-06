@@ -1,0 +1,9 @@
+{
+  "care_time": 30,
+  "child": {
+    "citizen_id": 2
+  },
+  "parent": {
+    "citizen_id": 1
+  }
+}

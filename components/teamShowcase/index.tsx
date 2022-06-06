@@ -1,4 +1,4 @@
-import type { Employee as EmployeeType } from 'util/interfaces';
+import type { Employee as EmployeeType} from '@prisma/client';
 import React, { useState } from 'react';
 import { Group } from '@mantine/core';
 import Employee from 'components/employee';
