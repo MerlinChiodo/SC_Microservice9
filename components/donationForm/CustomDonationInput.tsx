@@ -1,16 +1,17 @@
-import React from 'react'
-import { formatAmountForDisplay } from 'util/stripe/'
+import React from 'react';
+import { NumberInput, Slider } from '@mantine/core';
+import { formatAmountForDisplay } from 'util/stripe';
 
 type Props = {
-  name: string
-  value: number
-  min: number
-  max: number
-  currency: string
-  step: number
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  className?: string
-}
+  name: string;
+  value: number;
+  min: number;
+  max: number;
+  currency: string;
+  step: number;
+  onChange: (v: number) => void;
+  className?: string;
+};
 
 const CustomDonationInput = ({
   name,
@@ -22,29 +23,38 @@ const CustomDonationInput = ({
   onChange,
   className,
 }: Props) => (
-  <label>
-    Custom donation amount ({formatAmountForDisplay(min, currency)}-
-    {formatAmountForDisplay(max, currency)}):
-    <input
+  <>
+    <NumberInput
+      label={
+        window.navigator.language === 'de'
+          ? 'Spendenbetrag'
+          : 'Custom donation amount ' +
+            formatAmountForDisplay(min, currency) +
+            ' - ' +
+            formatAmountForDisplay(max, currency)
+      }
       className={className}
-      type="number"
       name={name}
       value={value}
       min={min}
       max={max}
       step={step}
       onChange={onChange}
-    ></input>
-    <input
-      type="range"
+      m="md"
+      size="md"
+    />
+    <Slider
+      m="md"
+      size="lg"
       name={name}
       value={value}
       min={min}
       max={max}
       step={step}
       onChange={onChange}
-    ></input>
-  </label>
-)
+      onChangeEnd={onChange}
+    />
+  </>
+);
 
-export default CustomDonationInput
+export default CustomDonationInput;
