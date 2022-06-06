@@ -9,38 +9,88 @@ import DonationForm from 'components/donationForm';
 import { MAX_AMOUNT, AMOUNT_STEP } from 'util/stripe';
 
 export default function Donation() {
+  const theme = useMantineTheme();
   const [paymentIntent, setPaymentIntent] = useState<PaymentIntent | null>(null);
+  const [newPaymentIntent, setNewPaymentIntent] = useState(true);
   useEffect(() => {
-    fetchPostJSON('/api/private/donation/payment_intents', {
-      amount: Math.round(MAX_AMOUNT / AMOUNT_STEP),
-    }).then((data: any) => {
-      setPaymentIntent(data);
-    });
-  }, [setPaymentIntent]);
+    if (newPaymentIntent) {
+      setPaymentIntent(null);
+      fetchPostJSON('/api/private/donation/payment_intents', {
+        amount: Math.round(MAX_AMOUNT / AMOUNT_STEP),
+      }).then((data) => {
+        setPaymentIntent(data);
+      });
+      setNewPaymentIntent(false);
+    }
+  }, [setPaymentIntent, newPaymentIntent]);
+
   return (
     <Layout>
-      <div className="page-container">
-        <h1>Donate to support refugees</h1>
-        {paymentIntent && paymentIntent.client_secret ? (
-          <Elements
-            stripe={getStripe()}
-            options={{
-              appearance: {
-                variables: {
-                  colorIcon: '#6772e5',
-                  fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Title>Donation</Title>
+        <Blockquote cite="– Winston S. Churchill">
+          We make a living by what we get. We make a life by what we give.
+        </Blockquote>
+        <div style={{ width: '800px' }}>
+          {paymentIntent && paymentIntent.client_secret ? (
+            <Elements
+              stripe={getStripe()}
+              options={{
+                appearance: {
+                  theme: 'none',
+                  labels: 'above',
+                  variables: {
+                    colorPrimary: theme.primaryColor,
+                    colorBackground: theme.colorScheme === 'dark' ? theme.colors.dark[5] : 'white',
+                    colorText: theme.colorScheme === 'dark' ? theme.colors.dark[1] : 'black',
+                    colorIcon: '#6772e5',
+                    fontFamily: theme.fontFamily,
+                  },
+                  rules: {
+                    '.Input': {
+                      border:
+                        theme.colorScheme === 'dark'
+                          ? '1px solid transparent'
+                          : '1px solid #ced4da',
+                      fontSize: '16px',
+                      color: theme.colorScheme === 'dark' ? '#C1C2C5' : 'black',
+                    },
+                    '.Input:focus': {
+                      outline: 'none',
+                      borderColor: '#1971c2',
+                    },
+                    '.Input::placeholder': {
+                      color: theme.colorScheme === 'dark' ? '#5c5f66' : '#adb5bd',
+                    },
+                    '.Label': {
+                      marginBottom: '4px',
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      color: theme.colorScheme === 'dark' ? '#C1C2C5' : 'black',
+                    },
+                  },
                 },
-              },
-              clientSecret: paymentIntent.client_secret,
-            }}
-          >
-            <DonationForm paymentIntent={paymentIntent} />
-          </Elements>
-        ) : (
-          <Center>
-            <Loader variant="dots" size="xl" />
-          </Center>
-        )}
+                clientSecret: paymentIntent.client_secret,
+              }}
+            >
+              <DonationForm
+                paymentIntent={paymentIntent}
+                setNewPaymentIntent={setNewPaymentIntent}
+              />
+            </Elements>
+          ) : (
+            <Center>
+              <Loader variant="dots" size="xl" />
+            </Center>
+          )}
+        </div>
       </div>
     </Layout>
   );
