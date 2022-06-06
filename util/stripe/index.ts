@@ -1,3 +1,6 @@
+export const MAX_AMOUNT = 5000;
+export const AMOUNT_STEP = 5;
+
 export function formatAmountForDisplay(
   amount: number,
   currency: string

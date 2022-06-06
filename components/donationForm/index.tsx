@@ -1,21 +1,22 @@
-import React, { useState, FC, useRef } from 'react';
+import React, { useState, FC } from 'react';
+import { ActionIcon, Button, Center, Loader, Stack, Text, TextInput, Paper } from '@mantine/core';
 import { PaymentIntent } from '@stripe/stripe-js';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 import { fetchPostJSON } from 'util/api/fetch';
-import { formatAmountFromStripe, formatAmountForDisplay } from 'util/stripe/';
+import { formatAmountFromStripe, formatAmountForDisplay } from 'util/stripe';
 import * as config from 'lib/stripe/config';
-import StripeTestCards from './StripeTestCards';
-import PrintObject from './PrintObject';
 import CustomDonationInput from './CustomDonationInput';
 import { useAuth } from 'context/auth';
+import { Refresh } from 'tabler-icons-react';
 
 const DonationForm: FC<{
   paymentIntent?: PaymentIntent | null;
-}> = ({ paymentIntent = null }) => {
+  setNewPaymentIntent: Function;
+}> = ({ paymentIntent = null, setNewPaymentIntent }) => {
   const defaultAmount = paymentIntent
     ? formatAmountFromStripe(paymentIntent.amount, paymentIntent.currency)
     : Math.round(config.MAX_AMOUNT / config.AMOUNT_STEP);
-
+  console.log(paymentIntent);
   const auth = useAuth();
   const [input, setInput] = useState({
     customDonation: defaultAmount,
@@ -24,6 +25,7 @@ const DonationForm: FC<{
   const [paymentType, setPaymentType] = useState('');
   const [payment, setPayment] = useState({ status: 'initial' });
   const [errorMessage, setErrorMessage] = useState('');
+  const [eventMessage, setEventMessage] = useState<string | null>();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -32,17 +34,37 @@ const DonationForm: FC<{
       case 'processing':
       case 'requires_payment_method':
       case 'requires_confirmation':
-        return <h2>Processing...</h2>;
+        return (
+          <Text component="p" weight={700} color="dimmed">
+            Processing...
+          </Text>
+        );
       case 'requires_action':
-        return <h2>Authentication...</h2>;
+        return (
+          <Text component="p" weight={700} color="dimmed">
+            Authentication...
+          </Text>
+        );
       case 'succeeded':
-        return <h2>Payment Succeeded 🥳 Thank you {input.cardholderName} for your donation!</h2>;
+        if (eventMessage) {
+          return (
+            <Stack spacing="xs" align="center">
+              <Text weight={700}>🥳 Thank you {input.cardholderName} for your donation!</Text>
+              <Text size="sm" weight={500} color="dimmed">
+                {eventMessage}
+              </Text>
+            </Stack>
+          );
+        }
+        return <Text weight={700}>🥳 Thank you {input.cardholderName} for your donation!</Text>;
       case 'error':
         return (
-          <>
-            <h2>Error 😭</h2>
-            <p className="error-message">{errorMessage}</p>
-          </>
+          <Stack spacing="xs" align="center">
+            <Text weight={700}>Error 😭 Please Contact Support Team</Text>
+            <Text size="sm" color="dimmed" weight={500}>
+              {errorMessage}
+            </Text>
+          </Stack>
         );
       default:
         return null;
@@ -53,6 +75,12 @@ const DonationForm: FC<{
     setInput({
       ...input,
       [e.currentTarget.name]: e.currentTarget.value,
+    });
+  };
+  const handleInputChangeNumber = (v: number) => {
+    setInput({
+      ...input,
+      customDonation: v,
     });
   };
 
@@ -81,10 +109,9 @@ const DonationForm: FC<{
     }
 
     // Use your card Element with other Stripe.js APIs
-    const confirmation = await stripe!.confirmPayment({
+    const res = await stripe!.confirmPayment({
       elements,
       confirmParams: {
-        //return_url: 'http://localhost:3000/donation',
         payment_method_data: {
           billing_details: {
             name: input.cardholderName,
@@ -94,41 +121,58 @@ const DonationForm: FC<{
       redirect: 'if_required',
     });
 
-    if (confirmation.error) {
+    if (res.error) {
       setPayment({ status: 'error' });
-      setErrorMessage(confirmation.error.message ?? 'An unknown error occurred');
-    } else if (confirmation.paymentIntent) {
-      setPayment(confirmation.paymentIntent);
+      setErrorMessage(res.error.message ?? 'An unknown error occurred');
+    } else if (paymentIntent) {
+      if (auth.user) {
+        await fetchPostJSON('/api/private/donation/publish', {
+          amount: input.customDonation,
+          citizen_id: auth.user.citizen_id,
+        })
+          .then(() => setEventMessage('Your donation has been transferred to Finanzamt.'))
+          .catch(() =>
+            setEventMessage(
+              'Your donation could not be transferred to Finanzamt. Please Contact Support Team to resolve the issue.'
+            )
+          );
+      }
+      setPayment(res.paymentIntent);
     }
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <CustomDonationInput
-          className="elements-style"
-          name="customDonation"
-          value={input.customDonation}
-          min={config.MIN_AMOUNT}
-          max={config.MAX_AMOUNT}
-          step={config.AMOUNT_STEP}
-          currency={config.CURRENCY}
-          onChange={handleInputChange}
-        />
-        <StripeTestCards />
-        <fieldset className="elements-style">
-          <legend>Your payment details:</legend>
+      <Paper shadow="sm" p="md" withBorder>
+        <form onSubmit={handleSubmit}>
+          <CustomDonationInput
+            className="elements-style"
+            name="customDonation"
+            value={input.customDonation}
+            min={config.MIN_AMOUNT}
+            max={config.MAX_AMOUNT}
+            step={config.AMOUNT_STEP}
+            currency={config.CURRENCY}
+            onChange={handleInputChangeNumber}
+          />
           {paymentType === 'card' ? (
-            <input
+            <TextInput
+              label={window.navigator.language == 'de' ? 'Karteninhaber' : 'Cardholder name'}
               placeholder="Cardholder name"
-              className="elements-style"
-              type="Text"
+              type="text"
               name="cardholderName"
               defaultValue={auth.user ? auth.user.firstname + ' ' + auth.user.lastname : ''}
               onChange={handleInputChange}
+              size="md"
+              mb="sm"
               required
+              styles={{ required: { display: 'none' } }}
             />
-          ) : null}
+          ) : (
+            <Center>
+              <Loader variant="dots" size="xl" />
+            </Center>
+          )}
           <div className="FormRow elements-style">
             <PaymentElement
               onChange={(e) => {
@@ -136,17 +180,30 @@ const DonationForm: FC<{
               }}
             />
           </div>
-        </fieldset>
-        <button
-          className="elements-style-background"
-          type="submit"
-          disabled={!['initial', 'succeeded', 'error'].includes(payment.status) || !stripe}
-        >
-          Donate {formatAmountForDisplay(input.customDonation, config.CURRENCY)}
-        </button>
-      </form>
-      <PaymentStatus status={payment.status} />
-      <PrintObject content={payment} />
+          <Center>
+            <Button
+              size="lg"
+              radius="lg"
+              m="xl"
+              type="submit"
+              disabled={!['initial', 'error'].includes(payment.status) || !stripe}
+            >
+              Donate {formatAmountForDisplay(input.customDonation, config.CURRENCY)}
+            </Button>
+            <ActionIcon
+              style={{ display: ['succeeded'].includes(payment.status) ? 'block' : 'none' }}
+              onClick={() => {
+                setNewPaymentIntent(true);
+              }}
+            >
+              <Refresh size={18} />
+            </ActionIcon>
+          </Center>
+        </form>
+        <Center>
+          <PaymentStatus status={payment.status} />
+        </Center>
+      </Paper>
     </>
   );
 };

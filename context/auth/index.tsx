@@ -23,7 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }): JSX.E
   };
 
   const login = () => {
-    setUser({ firstname: 'Jooske', lastname: 'Burgman', email: 'jooske@afi.de' });
+    setUser({ firstname: 'Jooske', lastname: 'Burgman', email: 'jooske@afi.de', citizen_id: 1 });
   };
 
   useEffect(() => {
