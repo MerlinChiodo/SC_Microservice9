@@ -29,7 +29,7 @@ model Housing {
   people_assigned  Int       @default(0)
   people_limit     Int
   size             Float
-  shared_bathrooom Boolean?
+  shared_bathroom Boolean?
   rooms            Int?
   rent             Float
   info             String?   @db.LongText
