@@ -21,7 +21,7 @@ const dataLoggedIn = [
     label: 'Home',
   },
   {
-    link: '/registration',
+    link: '/registration/refugee',
     label: 'Registration',
   },
   {
