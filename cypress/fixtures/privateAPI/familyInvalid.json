@@ -1,0 +1,24 @@
+{
+  "parents": [
+    {
+      "firstname": "Joasia",
+      "lastname": "Czarnecka",
+      "email": "joasia@cz.pl",
+      "date_of_birth": "1990-08-01T00:00:00.000Z"
+    }
+  ],
+  "children": [
+    {
+      "firstname": "Gustaw",
+      "lastname": "Czarnecka",
+      "email": "gustaw@cz.pl",
+      "date_of_birth": "2018-03-18T00:00:00.000Z"
+    },
+    {
+      "firstname": "Tekla",
+      "lastname": "Czarnecka",
+      "email": "tekla@cz.pl",
+      "date_of_birth": "2019-10-26T00:00:00.000Z"
+    }
+  ]
+}

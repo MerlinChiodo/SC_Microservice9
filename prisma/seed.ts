@@ -188,6 +188,30 @@ const refugeeData: Prisma.RefugeeUncheckedCreateInput[] = [
     document: file,
     phone: '973-685-9561',
   },
+  {
+    firstname: 'Joasia',
+    lastname: 'Czarnecka',
+    email: 'joasia@cz.pl',
+    date_of_birth: '1990-08-01T00:00:00.000Z',
+    family_tag: 'cl4ad7m3t0000286ds0ua0zl3',
+    qr_code: 'cl4bnkyfp01917to7j37hnsym',
+  },
+  {
+    firstname: 'Gustaw',
+    lastname: 'Czarnecka',
+    email: 'gustaw@cz.pl',
+    date_of_birth: '2018-03-18T00:00:00.000Z',
+    family_tag: 'cl4ad7m3t0000286ds0ua0zl3',
+    qr_code: 'cl4bnm69301947to7395r1ruo',
+  },
+  {
+    firstname: 'Tekla',
+    lastname: 'Czarnecka',
+    email: 'tekla@cz.pl',
+    date_of_birth: '2019-10-26T00:00:00.000Z',
+    family_tag: 'cl4ad7m3t0000286ds0ua0zl3',
+    qr_code: 'cl4bnmuh201977to7zeo6u83l',
+  },
 ];
 
 const employeeData: Prisma.EmployeeUncheckedCreateInput[] = [
