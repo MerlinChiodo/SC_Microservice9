@@ -294,6 +294,15 @@ describe('Private API', () => {
     });
   });
 
+  describe('GET api/private/housing/refugee', () => {
+    it('valid request', function () {
+      cy.request('api/private/housing/refugee').should((response) => {
+        expect(response).property('status').to.equal(200);
+        expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
+      });
+    });
+  });
+
   describe('POST api/private/housing/assign', () => {
     it('valid request', function () {
       cy.request({
