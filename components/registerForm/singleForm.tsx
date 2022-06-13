@@ -10,7 +10,7 @@ export default function RegisterForm({ handleSubmit }: { handleSubmit: Function 
     initialValues: {
       firstname: '',
       lastname: '',
-      date_of_birth: '',
+      date_of_birth: undefined,
       email: '',
       phone: '',
       nationality: '',
