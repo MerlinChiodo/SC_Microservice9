@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Center, Text, Title, Paper } from '@mantine/core';
+import { Button, Center, Text, Title, Paper } from '@mantine/core';
 import { fetchPostJSON } from 'util/api/fetch';
 import { Refugee } from '@prisma/client';
 import Layout from 'components/layout';
 import RegisterForm from 'components/registerForm/singleForm';
 import PersonalQRCode from 'components/qrcode';
+import Link from 'next/link';
 
 export default function RefugeePage() {
   const [error, setError] = useState(false);
@@ -83,6 +84,11 @@ export default function RefugeePage() {
           <Paper withBorder m="xl" shadow="md" sx={{ maxWidth: 1000 }}>
             <RegisterForm handleSubmit={handleSubmit} />
           </Paper>
+        </Center>
+        <Center>
+          <Link href="/registration/family">
+            <Button variant="subtle">You want to register your family? Click here.</Button>
+          </Link>
         </Center>
       </Layout>
     );
