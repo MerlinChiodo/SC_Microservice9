@@ -2,7 +2,7 @@
 # It uses a Ubuntu 20.04 OS
 # It uses Docker official login action
 # Uses Docker Build and Push Action to build and push the Image to DockerHub.
-name: Build and Push Docker Image
+name: Full CI and CD Workflow
 
 on:
   push:
