@@ -13,11 +13,26 @@ on:
       - main
 
 jobs:
-
-  build:
-
+  cypress-run:
     runs-on: ubuntu-20.04
-
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      RABBITMQ_URL: ${{ secrets.RABBITMQ_URL }}
+      NEXT_PUBLIC_E2E_TEST: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Reset
+        run: npx prisma migrate reset -f
+      - name: Cypress run with env
+        uses: cypress-io/github-action@v2
+        with:
+          build: npm run build
+          start: npm run start
+          wait-on: http://localhost:3000
+  notify:
+    needs: cypress-run
+    runs-on: ubuntu-20.04
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
