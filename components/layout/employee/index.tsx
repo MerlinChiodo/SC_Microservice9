@@ -12,6 +12,10 @@ const links = [
     label: 'Registration'
   },
   {
+    link: '/employee/register/family',
+    label: 'Registration Family'
+  },
+  {
     link: '/employee/housing',
     label: 'Housing',
   },

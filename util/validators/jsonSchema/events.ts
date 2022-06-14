@@ -280,7 +280,7 @@ export const RegisterFamilyEvent: JSONSchemaType<Family> = {
           },
           date_of_birth: {
             type: 'string',
-            format: 'date',
+            format: 'date-time',
           },
           email: {
             type: 'string',
@@ -305,7 +305,7 @@ export const RegisterFamilyEvent: JSONSchemaType<Family> = {
           },
           date_of_birth: {
             type: 'string',
-            format: 'date',
+            format: 'date-time',
           },
           email: {
             type: 'string',

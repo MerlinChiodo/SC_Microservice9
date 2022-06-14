@@ -65,6 +65,47 @@ describe('Private API', () => {
     });
   });
 
+  describe('POST api/private/register/accept/family', () => {
+    before(function () {
+      cy.fixture('privateAPI/family').then((family) => {
+        this.family = family;
+      });
+      cy.fixture('privateAPI/familyInvalid').then((family) => {
+        this.familyInvalid = family;
+      });
+    });
+
+    it('valid request', function () {
+      cy.request({
+        method: 'POST',
+        url: `api/private/register/accept/family`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: this.family,
+      }).should((response) => {
+        expect(response).property('status').to.equal(200);
+        expect(response.body).to.have.property('message');
+        expect(response.body.message).to.equal('success');
+      });
+    });
+
+    it('invalid request', function () {
+      cy.request({
+        method: 'POST',
+        url: `api/private/register/accept/family`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: this.refugeeInvalid,
+        failOnStatusCode: false,
+      }).should((response) => {
+        expect(response).property('status').to.equal(400);
+        expect(response.body).to.have.property('message');
+      });
+    });
+  });
+
   describe('DELETE api/private/register/:id', () => {
     it('valid request', function () {
       cy.request({
@@ -84,6 +125,15 @@ describe('Private API', () => {
         failOnStatusCode: false,
       }).should((response) => {
         expect(response).property('status').to.equal(500);
+      });
+    });
+  });
+
+  describe('GET api/private/register/family', () => {
+    it('valid request', function () {
+      cy.request('api/private/register/family').should((response) => {
+        expect(response).property('status').to.equal(200);
+        expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
       });
     });
   });

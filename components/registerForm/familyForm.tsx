@@ -1,11 +1,17 @@
 import React from 'react';
 import { useForm } from '@mantine/form';
 import { DatePicker } from '@mantine/dates';
-import { Button, Center, Grid, Group, Text, TextInput } from '@mantine/core';
+import { Button, Center, Grid, Text, TextInput } from '@mantine/core';
 import { Checklist } from 'tabler-icons-react';
 import Dropbox from 'components/dropbox';
 
-export default function RegisterForm({ handleSubmit }: { handleSubmit: Function }) {
+export default function RegisterForm({
+  handleSubmit,
+  familyTag,
+}: {
+  handleSubmit: Function;
+  familyTag: string;
+}) {
   const form = useForm({
     initialValues: {
       firstname: '',
@@ -15,6 +21,7 @@ export default function RegisterForm({ handleSubmit }: { handleSubmit: Function 
       phone: '',
       nationality: '',
       document: '',
+      family_tag: familyTag,
     },
   });
   return (
@@ -81,6 +88,15 @@ export default function RegisterForm({ handleSubmit }: { handleSubmit: Function 
             {...form.getInputProps('nationality')}
           />
         </Grid.Col>
+        <Grid.Col xs={12} sm={6}>
+          <TextInput
+            id="familyTag"
+            label="Family Tag"
+            mt="sm"
+            disabled
+            {...form.getInputProps('family_tag')}
+          />
+        </Grid.Col>
         <Grid.Col span={12}>
           <Text size="sm">
             Document{' '}
@@ -92,14 +108,7 @@ export default function RegisterForm({ handleSubmit }: { handleSubmit: Function 
         </Grid.Col>
         <Grid.Col>
           <Center>
-            <Button
-              leftIcon={<Checklist />}
-              type="submit"
-              radius="md"
-              size="md"
-              m="xl"
-              uppercase
-            >
+            <Button leftIcon={<Checklist />} type="submit" radius="md" size="md" m="xl" uppercase>
               Register
             </Button>
           </Center>
