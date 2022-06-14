@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (housing.people_assigned + 1 > housing.people_limit)
       return customError(res, 400, 'Too many people assigned');
 
-    const refugee = await prisma.post.findUnique({ where: { id: r_id } });
+    const refugee = await prisma.refugee.findUnique({ where: { id: r_id } });
     if (!refugee) return notFound(res);
 
     await prisma.refugee.update({

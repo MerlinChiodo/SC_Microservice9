@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!(await auth(req.cookies.token))) return notAuthenticated(res);
 
   if (req.method == 'GET') {
-    const housing = await prisma.housing.findMany();
+    const housing = await prisma.housing.findMany({ include: { address: true } });
     return res.status(200).json(housing);
   }
 
