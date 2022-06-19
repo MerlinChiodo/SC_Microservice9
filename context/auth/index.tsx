@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useMemo } from 'react';
 import type { User } from 'util/interfaces/auth';
+import { fetchPostJSON, fetchGetJSON } from 'util/api/fetch';
 
 interface AuthContext {
   user: User | null;
@@ -18,22 +19,30 @@ export const useAuth = () => useContext(AuthContext);
 export function AuthProvider({ children }: { children: React.ReactNode }): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
 
-  const logout = () => {
+  const logout = async () => {
+    await fetchGetJSON('/api/private/user/logout');
     setUser(null);
   };
 
-  const login = () => {
-    setUser({ firstname: 'Jooske', lastname: 'Burgman', email: 'jooske@afi.de', citizen_id: 1 });
+  const login = async (username: string, password: string) => {
+    const user = await fetchPostJSON('/api/private/user/login', {
+      username: username,
+      password: password,
+    });
+    if (user.message) return;
+    setUser(user);
+    console.log(user);
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    //check token & get user infos
-    if (token) {
-      login();
-    } else {
-      logout();
-    }
+    fetchGetJSON('/api/private/user/checkAuth')
+      .then((user) => {
+        if (user.message) return;
+        setUser(user);
+      })
+      .catch(() => {
+        logout();
+      });
   }, [setUser]);
 
   const state = useMemo(
