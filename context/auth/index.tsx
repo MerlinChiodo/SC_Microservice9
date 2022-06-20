@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useMemo } from 'react';
 import type { User } from 'util/interfaces/auth';
-import { fetchPostJSON, fetchGetJSON } from 'util/api/fetch';
+import { fetchPost, fetchGetJSON } from 'util/api/fetch';
 
 interface AuthContext {
   user: User | null;
@@ -25,24 +25,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }): JSX.E
   };
 
   const login = async (username: string, password: string) => {
-    const user = await fetchPostJSON('/api/private/user/login', {
+    const res = await fetchPost('/api/private/user/login', {
       username: username,
       password: password,
     });
-    if (user.message) return;
+    if (res.status != 200) return;
+    const user = await res.json();
     setUser(user);
-    console.log(user);
   };
 
   useEffect(() => {
     fetchGetJSON('/api/private/user/checkAuth')
-      .then((user) => {
-        if (user.message) return;
-        setUser(user);
+      .then((res) => {
+        if (!res.verified) logout();
+        setUser(res.user);
       })
-      .catch(() => {
-        logout();
-      });
+      .catch(() => logout());
   }, [setUser]);
 
   const state = useMemo(
