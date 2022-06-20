@@ -16,11 +16,10 @@ const DonationForm: FC<{
   const defaultAmount = paymentIntent
     ? formatAmountFromStripe(paymentIntent.amount, paymentIntent.currency)
     : Math.round(config.MAX_AMOUNT / config.AMOUNT_STEP);
-  console.log(paymentIntent);
   const auth = useAuth();
   const [input, setInput] = useState({
     customDonation: defaultAmount,
-    cardholderName: '',
+    cardholderName: auth.user ? auth.user.firstname + ' ' + auth.user.lastname : '',
   });
   const [paymentType, setPaymentType] = useState('');
   const [payment, setPayment] = useState({ status: 'initial' });
@@ -74,7 +73,7 @@ const DonationForm: FC<{
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setInput({
       ...input,
-      [e.currentTarget.name]: e.currentTarget.value,
+      cardholderName: e.currentTarget.value,
     });
   };
   const handleInputChangeNumber = (v: number) => {
@@ -161,7 +160,7 @@ const DonationForm: FC<{
               placeholder="Cardholder name"
               type="text"
               name="cardholderName"
-              defaultValue={auth.user ? auth.user.firstname + ' ' + auth.user.lastname : ''}
+              value={input.cardholderName}
               onChange={handleInputChange}
               size="md"
               mb="sm"

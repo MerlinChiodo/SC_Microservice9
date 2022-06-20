@@ -9,8 +9,6 @@ export const useStyles = createStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginLeft: '10px',
-    marginRight: '10px',
   },
 
   link: {
