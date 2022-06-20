@@ -6,7 +6,7 @@ import { methodNotAllowed, notAuthenticated, customError, success } from 'util/a
 const eventData = {
   event_id: 9006,
   event_name: 'Delete My Service',
-  service_name: 'integration',
+  service_name: 'Integration',
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

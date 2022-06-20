@@ -21,11 +21,11 @@ export const AboutUsUpdateEvent: JSONSchemaType<AboutUsUpdate> = {
     },
     event_name: {
       type: 'string',
-      const: 'Change About Us',
+      const: 'Updated About US',
     },
     service_name: {
       type: 'string',
-      const: 'integration',
+      const: 'Integration',
     },
     date: {
       type: 'string',
@@ -65,7 +65,7 @@ export const AboutUsDeleteEvent: JSONSchemaType<AboutUsDelete> = {
     },
     service_name: {
       type: 'string',
-      const: 'integration',
+      const: 'Integration',
     },
     date: {
       type: 'string',
