@@ -31,6 +31,10 @@ const links = [
     link: '/employee/aboutus',
     label: 'About Us',
   },
+  {
+    link: '/employee/donation',
+    label: 'Donation',
+  },
 ];
 
 export function EmployeeLayout({ children }: any) {
@@ -46,6 +50,7 @@ export function EmployeeLayout({ children }: any) {
       <AppShell
         className={classes.root}
         padding="md"
+        fixed
         navbar={
           <Navbar width={{ base: 300 }} p="xs">
             <Navbar.Section grow mt="md">
