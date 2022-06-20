@@ -32,6 +32,29 @@ export async function fetchPostJSON(url: string, data?: {}) {
   }
 }
 
+export async function fetchPost(url: string, data?: {}) {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(data || {}),
+    });
+    return response;
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
+    throw err;
+  }
+}
+
 export async function fetchPostURLEncoded(url: string, data?: any) {
   try {
     const formBody = []
@@ -50,7 +73,7 @@ export async function fetchPostURLEncoded(url: string, data?: any) {
       referrerPolicy: 'no-referrer',
       body: formBody.join('&')
     });
-    return await response.json();
+    return response;
   } catch (err) {
     if (err instanceof Error) {
       throw new Error(err.message);
