@@ -1,11 +1,12 @@
+import type { NextPage } from 'next';
+import type { Employee } from '@prisma/client';
 import React, { useState, useEffect } from 'react';
-import { Employee } from '@prisma/client';
 import { Loader, Title, SimpleGrid } from '@mantine/core';
 import Layout from 'components/layout';
 import TeamShowcase from 'components/teamShowcase';
 import { fetchGetJSON } from 'util/api/fetch';
 
-export default function Home() {
+const Page: NextPage = () => {
   const [employees, setEmployees] = useState<Employee[] | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -49,4 +50,6 @@ export default function Home() {
       </SimpleGrid>
     </Layout>
   );
-}
+};
+
+export default Page;
