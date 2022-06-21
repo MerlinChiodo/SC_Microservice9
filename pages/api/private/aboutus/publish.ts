@@ -5,8 +5,8 @@ import { methodNotAllowed, notAuthenticated, customError, success } from 'util/a
 
 const eventData = {
   event_id: 9005,
-  event_name: 'Change About Us',
-  service_name: 'integration',
+  event_name: 'Updated About US',
+  service_name: 'Integration',
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

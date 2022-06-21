@@ -13,7 +13,7 @@ const handleDelete = async () => {
 export default function page() {
   const [error, setError] = useState(false);
   const form = useForm({
-    initialValues: { aboutus: '', picture: '' },
+    initialValues: { about_us: '', picture: '' },
   });
 
   const handleSubmit = async (values: typeof form.values) => {
@@ -36,7 +36,7 @@ export default function page() {
     return (
       <Layout>
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-          <Textarea m="sm" label="Text" {...form.getInputProps('aboutus')} minRows={10} required />
+          <Textarea m="sm" label="Text" {...form.getInputProps('about_us')} minRows={10} required />
           <TextInput m="sm" label="Picture" {...form.getInputProps('picture')} />
           <Button m="sm" type="submit">
             Submit
