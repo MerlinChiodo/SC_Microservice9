@@ -268,6 +268,9 @@ export const RegisterFamilyEvent: JSONSchemaType<Family> = {
       type: 'string',
       const: 'integration',
     },
+    date: {
+      type: 'string',
+    },
     parents: {
       type: 'array',
       items: {
@@ -319,6 +322,6 @@ export const RegisterFamilyEvent: JSONSchemaType<Family> = {
       },
     },
   },
-  required: ['event_id', 'event_name', 'service_name', 'parents', 'children'],
+  required: ['event_id', 'event_name', 'service_name', 'date', 'parents', 'children'],
   additionalProperties: false,
 };

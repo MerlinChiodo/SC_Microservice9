@@ -67,6 +67,7 @@ export interface Family {
   event_id: number;
   event_name: string;
   service_name: string;
+  date: string;
   parents: {
     firstname: string;
     lastname: string;
