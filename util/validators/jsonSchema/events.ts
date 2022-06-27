@@ -220,6 +220,9 @@ export const RegisterEvent: JSONSchemaType<Refugee> = {
       type: 'string',
       const: 'integration',
     },
+    date: {
+      type: 'string',
+    },
     refugee: {
       type: 'object',
       properties: {
@@ -243,7 +246,7 @@ export const RegisterEvent: JSONSchemaType<Refugee> = {
       required: ['firstname', 'lastname', 'date_of_birth', 'email'],
     },
   },
-  required: ['event_id', 'event_name', 'service_name', 'refugee'],
+  required: ['event_id', 'event_name', 'service_name', 'date', 'refugee'],
   additionalProperties: false,
 };
 

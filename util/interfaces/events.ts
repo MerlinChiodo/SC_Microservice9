@@ -54,6 +54,7 @@ export interface Refugee {
   event_id: number;
   event_name: string;
   service_name: string;
+  date: string;
   refugee: {
     firstname: string;
     lastname: string;
