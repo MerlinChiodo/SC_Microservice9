@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { Button, Space, Text, TextInput, Textarea } from '@mantine/core';
+import { Center, Button, Space, Text, TextInput, Textarea } from '@mantine/core';
 import { fetchPostJSON } from 'util/api/fetch';
+import Link from 'next/link';
 import Layout from 'components/layout/employee';
+import { useAuthEmployee } from 'context/auth/employee';
 
 const handleDelete = async () => {
   await fetchPostJSON('/api/private/aboutus/delete', { date: new Date().toISOString() }).catch();
@@ -11,6 +13,7 @@ const handleDelete = async () => {
 };
 
 export default function page() {
+  const auth = useAuthEmployee();
   const [error, setError] = useState(false);
   const form = useForm({
     initialValues: { about_us: '', picture: '' },
@@ -29,6 +32,25 @@ export default function page() {
       setError(true);
     }
   };
+
+  if (!auth.user) {
+    return (
+      <Layout>
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          403 - Forbidden
+        </Text>
+        <Space h="md" />
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          Please Login
+        </Text>
+        <Center>
+          <Link href="/employee/login">
+            <Button mt="xl">Sign in</Button>
+          </Link>
+        </Center>
+      </Layout>
+    );
+  }
 
   if (error) {
     return <Text>Error occured. Please contact the IT Support Team</Text>;

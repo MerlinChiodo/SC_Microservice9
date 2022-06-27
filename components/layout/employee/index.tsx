@@ -4,16 +4,16 @@ import { AppShell, Avatar, Group, Navbar, Header, SimpleGrid, Title, Text } from
 import HeaderLogo from 'components/header/logo';
 import ThemeToggle from 'components/buttons/theme';
 import { useStyles } from './styles';
-
+import { useAuthEmployee } from 'context/auth/employee';
 
 const links = [
   {
     link: '/employee/register',
-    label: 'Registration'
+    label: 'Registration',
   },
   {
     link: '/employee/register/family',
-    label: 'Registration Family'
+    label: 'Registration Family',
   },
   {
     link: '/employee/housing',
@@ -38,6 +38,7 @@ const links = [
 ];
 
 export function EmployeeLayout({ children }: any) {
+  const auth = useAuthEmployee();
   const { classes } = useStyles();
   const navItems = links.map((link) => (
     <Link href={link.link} passHref key={link.label}>
@@ -47,38 +48,48 @@ export function EmployeeLayout({ children }: any) {
     </Link>
   ));
   return (
-      <AppShell
-        className={classes.root}
-        padding="md"
-        fixed
-        navbar={
-          <Navbar width={{ base: 300 }} p="xs">
-            <Navbar.Section grow mt="md">
-              {navItems}
-            </Navbar.Section>
-            <Navbar.Section>
-              <Group position="apart">
-                <Avatar />
-                <SimpleGrid spacing={0}>
-                  <Text>Hans Bauer</Text>
-                  <Text size="xs" color="dimmed">hans@afi.de</Text>
-                </SimpleGrid>
-              </Group>
-            </Navbar.Section>
-          </Navbar>
-        }
-        header={
-          <Header height={60} p="xs" className={classes.header}>
-            <Group>
-              <HeaderLogo />
-              <Title order={4}>Amt für Integration</Title>
+    <AppShell
+      className={classes.root}
+      padding="md"
+      fixed
+      navbar={
+        <Navbar width={{ base: 300 }} p="xs">
+          <Navbar.Section grow mt="md">
+            {navItems}
+          </Navbar.Section>
+          <Navbar.Section>
+            <Group position="apart">
+              <Avatar
+                src={
+                  auth.user
+                    ? '/avatar/' +
+                      auth.user.firstname.toLowerCase() +
+                      '_' +
+                      auth.user.lastname.toLowerCase() +
+                      '.jpg'
+                    : ''
+                }
+                radius="xl"
+              />
+              <SimpleGrid spacing={0}>
+                <Text>{auth.user ? auth.user.firstname + ' ' + auth.user.lastname : ''}</Text>
+              </SimpleGrid>
             </Group>
-            <ThemeToggle />
-          </Header>
-        }
-      >
-        {children}
-      </AppShell>
+          </Navbar.Section>
+        </Navbar>
+      }
+      header={
+        <Header height={60} p="xs" className={classes.header}>
+          <Group>
+            <HeaderLogo />
+            <Title order={4}>Amt für Integration</Title>
+          </Group>
+          <ThemeToggle />
+        </Header>
+      }
+    >
+      {children}
+    </AppShell>
   );
 }
 

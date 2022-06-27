@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { Button, Text, TextInput, Textarea } from '@mantine/core';
+import { Button, Center, Space, Text, TextInput, Textarea } from '@mantine/core';
 import { fetchPostJSON } from 'util/api/fetch';
 import Layout from 'components/layout/employee';
+import Link from 'next/link';
+import { useAuthEmployee } from 'context/auth/employee';
 
 export default function page() {
+  const auth = useAuthEmployee();
   const [error, setError] = useState(false);
   const form = useForm({
     initialValues: { title: '', short_description: '', long_description: '', picture_url: '' },
@@ -19,6 +22,25 @@ export default function page() {
       setError(true);
     }
   };
+
+  if (!auth.user) {
+    return (
+      <Layout>
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          403 - Forbidden
+        </Text>
+        <Space h="md" />
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          Please Login
+        </Text>
+        <Center>
+          <Link href="/employee/login">
+            <Button mt="xl">Sign in</Button>
+          </Link>
+        </Center>
+      </Layout>
+    );
+  }
 
   if (error) {
     return <Text>Error occured. Please contact the IT Support Team</Text>;
