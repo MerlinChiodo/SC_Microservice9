@@ -3,10 +3,10 @@ import { prisma } from 'lib/prisma';
 import { methodNotAllowed, customError } from 'util/api/util';
 import { validatorREST } from 'util/validators';
 import { notAuthenticated, success } from 'util/api/util';
-import auth from 'lib/auth';
+import auth from 'lib/auth/employee';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (!(await auth(req.cookies.token))) return notAuthenticated(res);
+  if (!(await auth(req.cookies.token_employee))) return notAuthenticated(res);
 
   if (req.method == 'POST') {
     const error = validatorREST(req.body, 'newPost');
