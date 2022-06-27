@@ -170,7 +170,7 @@ export const PostEvent: JSONSchemaType<Post> = {
       type: 'string',
       const: 'newServicePost',
     },
-    service_name: {
+    service: {
       type: 'string',
       const: 'integration',
     },
@@ -198,7 +198,7 @@ export const PostEvent: JSONSchemaType<Post> = {
       nullable: true,
     },
   },
-  required: ['event_id', 'event_name', 'service_name', 'title', 'short_description'],
+  required: ['event_id', 'event_name', 'service', 'title', 'short_description'],
   additionalProperties: false,
 };
 

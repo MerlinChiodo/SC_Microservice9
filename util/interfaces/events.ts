@@ -42,11 +42,11 @@ export interface Kita {
 export interface Post {
   event_id: number;
   event_name: string;
-  service_name: string;
+  service: string;
   title: string;
   short_description: string;
   long_description?: string;
-  picture_url?: string;
+  picture_url?: string | null;
   event_on?: string;
 }
 

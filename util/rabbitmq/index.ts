@@ -1,9 +1,9 @@
-import type { Event } from 'util/interfaces/events';
+import type { Event, Post } from 'util/interfaces/events';
 import { validatorEvent } from 'util/validators';
 import { isEmpty, isNotEmpty } from 'util/api/util';
 import amqp from 'amqplib/callback_api';
 
-export const eventHandler = (event: Event) => {
+export const eventHandler = (event: Event | Post) => {
   const error = validatorEvent(event);
   if (error) return error;
   if (isEmpty(process.env.RABBITMQ_URL))
