@@ -4,3 +4,5 @@ export const BASE_URL =
     : 'http://localhost:3000';
 
 export const AUTH_URL = 'http://auth.smartcityproject.net:8080';
+
+export const PORTAL_URL = 'http://supersmartcity.de';
