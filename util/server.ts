@@ -5,5 +5,6 @@ export const BASE_URL =
 
 export const AUTH_URL = 'http://auth.smartcityproject.net:8080';
 
-export const CITIZEN_OFFICE_URL = 'http://vps2290194.fastwebserver.de:9710'
+export const PORTAL_URL = 'http://supersmartcity.de';
 
+export const CITIZEN_OFFICE_URL = 'http://vps2290194.fastwebserver.de:9710'
