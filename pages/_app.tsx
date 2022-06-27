@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { AuthProvider } from 'context/auth';
 import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
+import { AuthProviderEmployee } from 'context/auth/employee';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -25,7 +26,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: colorScheme }}>
           <AuthProvider>
-            <Component {...pageProps} />
+            <AuthProviderEmployee>
+              <Component {...pageProps} />
+            </AuthProviderEmployee>
           </AuthProvider>
         </MantineProvider>
       </ColorSchemeProvider>

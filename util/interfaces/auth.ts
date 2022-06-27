@@ -4,3 +4,9 @@ export interface User {
   email: string;
   citizen_id: number;
 }
+
+export interface Employee {
+  firstname: string;
+  lastname: string;
+  username: string;
+}
