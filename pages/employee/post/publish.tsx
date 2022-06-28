@@ -1,8 +1,10 @@
 import type { Post } from '@prisma/client';
 import { useEffect, useState } from 'react';
-import { Avatar, Button, Center, Group, Text, Stack } from '@mantine/core';
+import { Avatar, Button, Center, Group, Text, Space, Stack } from '@mantine/core';
 import { fetchGetJSON, fetchPostJSON } from 'util/api/fetch';
 import Layout from 'components/layout/employee';
+import { useAuthEmployee } from 'context/auth/employee';
+import Link from 'next/link';
 
 const handlePublish = async (id: number) => {
   try {
@@ -15,12 +17,32 @@ const handlePublish = async (id: number) => {
 };
 
 export default function page() {
+  const auth = useAuthEmployee();
   const [posts, setPosts] = useState<Post[]>([]);
   useEffect(() => {
     fetchGetJSON('/api/private/post/drafts')
       .then((data: Post[]) => setPosts(data))
       .catch();
   }, [setPosts]);
+
+  if (!auth.user) {
+    return (
+      <Layout>
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          403 - Forbidden
+        </Text>
+        <Space h="md" />
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          Please Login
+        </Text>
+        <Center>
+          <Link href="/employee/login">
+            <Button mt="xl">Sign in</Button>
+          </Link>
+        </Center>
+      </Layout>
+    );
+  }
 
   const items = posts.map((p: Post) => (
     <Group noWrap key={p.id}>

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from 'lib/prisma';
 import { badRequest, customError, notAuthenticated, notFound } from 'util/api/util';
 import { eventHandler } from 'util/rabbitmq';
-import auth from 'lib/auth';
+import auth from 'lib/auth/employee';
 
 const eventData = {
   event_id: 9000,
@@ -12,7 +12,7 @@ const eventData = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (!(await auth(req.cookies.token))) return notAuthenticated(res);
+  if (!(await auth(req.cookies.token_employee))) return notAuthenticated(res);
   const refugeeId = Number(req.query.id) as number;
   if (refugeeId === Number.NaN) return badRequest(res);
 

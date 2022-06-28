@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import Link from 'next/link';
+import Layout from 'components/layout/employee';
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
+  Center,
   Anchor,
   Paper,
   Title,
@@ -10,8 +12,27 @@ import {
   Group,
   Button,
 } from '@mantine/core';
+import { useAuthEmployee } from 'context/auth/employee';
 
 export default function page() {
+  const auth = useAuthEmployee();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    await auth.login(username, password);
+  };
+
+  if (auth.user) {
+    return (
+      <Layout>
+      <Center mt="xl">
+        <Title>Hi {auth.user.firstname}!</Title>
+      </Center>
+      </Layout>
+    );
+  }
+
   return (
     <Container size={420} mt={40}>
       <Title
@@ -21,19 +42,29 @@ export default function page() {
         Welcome back!
       </Title>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="you@afi.de" required />
-        <PasswordInput label="Password" placeholder="Your password" required mt="md" />
-        <Group position="apart" mt="md">
-          <Checkbox label="Remember me" />
+        <TextInput
+          label="Username"
+          value={username}
+          onChange={(event) => setUsername(event.currentTarget.value)}
+          placeholder="Your username"
+          required
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          required
+          mt="md"
+          value={password}
+          onChange={(event) => setPassword(event.currentTarget.value)}
+        />
+        <Group position="right" mt="md">
           <Anchor<'a'> onClick={(event) => event.preventDefault()} href="#" size="sm">
             Forgot password?
           </Anchor>
         </Group>
-        <Link href="/employee">
-          <Button fullWidth mt="xl">
-            Sign in
-          </Button>
-        </Link>
+        <Button fullWidth mt="xl" onClick={handleLogin}>
+          Sign in
+        </Button>
       </Paper>
     </Container>
   );

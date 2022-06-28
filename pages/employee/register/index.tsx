@@ -1,5 +1,6 @@
 import type { Refugee } from '@prisma/client';
 import useSWR, { useSWRConfig } from 'swr';
+import Link from 'next/link';
 import {
   Avatar,
   Box,
@@ -9,11 +10,13 @@ import {
   Group,
   Loader,
   SimpleGrid,
+  Space,
   Title,
   Text,
 } from '@mantine/core';
 import { fetchPostJSON, fetcher } from 'util/api/fetch';
 import Layout from 'components/layout/employee';
+import { useAuthEmployee } from 'context/auth/employee';
 
 const handleAccept = async (id: number) => {
   await fetchPostJSON(`/api/private/register/accept/${id}`);
@@ -22,8 +25,28 @@ const handleAccept = async (id: number) => {
 };
 
 export default function page() {
+  const auth = useAuthEmployee();
   const { data, error } = useSWR('/api/private/register', fetcher);
   const { mutate } = useSWRConfig();
+
+  if (!auth.user) {
+    return (
+      <Layout>
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          403 - Forbidden
+        </Text>
+        <Space h="md" />
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          Please Login
+        </Text>
+        <Center>
+          <Link href="/employee/login">
+            <Button mt="xl">Sign in</Button>
+          </Link>
+        </Center>
+      </Layout>
+    );
+  }
 
   if (error)
     return (
@@ -52,8 +75,9 @@ export default function page() {
             theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
         },
       })}
+      key={r.id}
     >
-      <Group noWrap key={r.id} id={String(r.id)}>
+      <Group noWrap id={String(r.id)}>
         <Avatar />
         <div style={{ flex: 1 }}>
           <Text size="sm" weight={500}>

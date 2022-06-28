@@ -1,13 +1,27 @@
 import useSWR from 'swr';
 import Layout from 'components/layout/employee';
-import { Box, Center, Badge, Group, Loader, SimpleGrid, Text, Title } from '@mantine/core';
+import Link from 'next/link';
+import {
+  Box,
+  Button,
+  Center,
+  Badge,
+  Group,
+  Loader,
+  SimpleGrid,
+  Space,
+  Text,
+  Title,
+} from '@mantine/core';
 import { fetcher } from 'util/api/fetch';
 import { formatAmountFromStripe } from 'util/stripe';
 import { Check } from 'tabler-icons-react';
+import { useAuthEmployee } from 'context/auth/employee';
 
 const CURRENCY = 'eur';
 
 export default function page() {
+  const auth = useAuthEmployee();
   const { data, error } = useSWR('/api/private/donation', fetcher);
 
   if (error)
@@ -21,6 +35,23 @@ export default function page() {
       <Layout>
         <Center>
           <Loader variant="dots" />
+        </Center>
+      </Layout>
+    );
+  if (!auth.user)
+    return (
+      <Layout>
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          403 - Forbidden
+        </Text>
+        <Space h="md" />
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          Please Login
+        </Text>
+        <Center>
+          <Link href="/employee/login">
+            <Button mt="xl">Sign in</Button>
+          </Link>
         </Center>
       </Layout>
     );
@@ -47,7 +78,7 @@ export default function page() {
         </Text>
         <Badge
           size="md"
-          sx={{maxWidth: '100px'}}
+          sx={{ maxWidth: '100px' }}
           variant="gradient"
           gradient={{ from: 'teal', to: 'lime', deg: 105 }}
           rightSection={

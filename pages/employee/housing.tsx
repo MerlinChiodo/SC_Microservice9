@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import Link from 'next/link';
 import Layout from 'components/layout/employee';
 import useSWR, { mutate } from 'swr';
 import {
@@ -9,10 +10,13 @@ import {
   Loader,
   Select,
   SimpleGrid,
+  Space,
   Title,
   Text,
 } from '@mantine/core';
 import { fetchPutJSON, fetcher } from 'util/api/fetch';
+import { useAuthEmployee } from 'context/auth/employee';
+
 
 interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
   image?: string;
@@ -45,10 +49,30 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
 );
 
 export default function page() {
+  const auth = useAuthEmployee();
   const { data, error } = useSWR('/api/private/housing/refugee', fetcher);
   const housing = useSWR('/api/private/housing', fetcher);
   const housingData = housing.data;
   const housingError = housing.error;
+
+  if (!auth.user) {
+    return (
+      <Layout>
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          403 - Forbidden
+        </Text>
+        <Space h="md" />
+        <Text align="center" weight={700} size="xl" color="dimmed">
+          Please Login
+        </Text>
+        <Center>
+          <Link href="/employee/login">
+            <Button mt="xl">Sign in</Button>
+          </Link>
+        </Center>
+      </Layout>
+    );
+  }
 
   if (error || housingError)
     return (

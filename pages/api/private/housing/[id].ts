@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from 'lib/prisma';
 import { badRequest, methodNotAllowed, notAuthenticated } from 'util/api/util';
-import auth from 'lib/auth';
+import auth from 'lib/auth/employee';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (!(await auth(req.cookies.token))) return notAuthenticated(res);
+  if (!(await auth(req.cookies.token_employee))) return notAuthenticated(res);
   const id = Number(req.query.id) as number;
   if (id === Number.NaN) return badRequest(res);
 
