@@ -170,7 +170,7 @@ export const PostEvent: JSONSchemaType<Post> = {
       type: 'string',
       const: 'newServicePost',
     },
-    service_name: {
+    service: {
       type: 'string',
       const: 'integration',
     },
@@ -198,7 +198,7 @@ export const PostEvent: JSONSchemaType<Post> = {
       nullable: true,
     },
   },
-  required: ['event_id', 'event_name', 'service_name', 'title', 'short_description'],
+  required: ['event_id', 'event_name', 'service', 'title', 'short_description'],
   additionalProperties: false,
 };
 
@@ -219,6 +219,9 @@ export const RegisterEvent: JSONSchemaType<Refugee> = {
     service_name: {
       type: 'string',
       const: 'integration',
+    },
+    date: {
+      type: 'string',
     },
     refugee: {
       type: 'object',
@@ -243,7 +246,7 @@ export const RegisterEvent: JSONSchemaType<Refugee> = {
       required: ['firstname', 'lastname', 'date_of_birth', 'email'],
     },
   },
-  required: ['event_id', 'event_name', 'service_name', 'refugee'],
+  required: ['event_id', 'event_name', 'service_name', 'date', 'refugee'],
   additionalProperties: false,
 };
 
@@ -264,6 +267,9 @@ export const RegisterFamilyEvent: JSONSchemaType<Family> = {
     service_name: {
       type: 'string',
       const: 'integration',
+    },
+    date: {
+      type: 'string',
     },
     parents: {
       type: 'array',
@@ -316,6 +322,6 @@ export const RegisterFamilyEvent: JSONSchemaType<Family> = {
       },
     },
   },
-  required: ['event_id', 'event_name', 'service_name', 'parents', 'children'],
+  required: ['event_id', 'event_name', 'service_name', 'date', 'parents', 'children'],
   additionalProperties: false,
 };

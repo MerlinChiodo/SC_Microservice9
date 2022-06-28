@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import type { Post } from 'util/interfaces/events';
 import { prisma } from 'lib/prisma';
 import { badRequest, notAuthenticated, customError, notFound, success } from 'util/api/util';
 import { eventHandler } from 'util/rabbitmq';
@@ -7,7 +8,7 @@ import auth from 'lib/auth';
 const eventData = {
   event_id: 9004,
   event_name: 'newServicePost',
-  service_name: 'integration',
+  service: 'integration',
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -25,7 +26,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       data: { published: true, published_at: new Date().toISOString() },
     });
 
-    const error = eventHandler({ ...eventData, ...post });
+    const event: Post = { ...eventData, ...post };
+    if (post.picture_url === null) {
+      delete event.picture_url;
+    }
+    const error = eventHandler(event);
     if (error) return customError(res, error.code, error.message);
     return success(res);
   }

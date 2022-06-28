@@ -11,12 +11,12 @@ import {
 } from 'util/validators/jsonSchema/events';
 
 import { NewHousingREST, NewPostREST, RefugeeREST } from 'util/validators/jsonSchema/rest';
-import type { Event } from 'util/interfaces/events';
+import type { Event, Post } from 'util/interfaces/events';
 
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
 
-export const validatorEvent = (event: Event) => {
+export const validatorEvent = (event: Event | Post) => {
   const error = { code: 400, message: 'Invalid RabbitMQ Event' };
   switch (event.event_id) {
     case 9000:

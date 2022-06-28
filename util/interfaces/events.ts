@@ -42,11 +42,11 @@ export interface Kita {
 export interface Post {
   event_id: number;
   event_name: string;
-  service_name: string;
+  service: string;
   title: string;
   short_description: string;
   long_description?: string;
-  picture_url?: string;
+  picture_url?: string | null;
   event_on?: string;
 }
 
@@ -54,6 +54,7 @@ export interface Refugee {
   event_id: number;
   event_name: string;
   service_name: string;
+  date: string;
   refugee: {
     firstname: string;
     lastname: string;
@@ -66,6 +67,7 @@ export interface Family {
   event_id: number;
   event_name: string;
   service_name: string;
+  date: string;
   parents: {
     firstname: string;
     lastname: string;

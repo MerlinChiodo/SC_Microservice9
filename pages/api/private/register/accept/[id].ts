@@ -8,6 +8,7 @@ const eventData = {
   event_id: 9000,
   event_name: 'Register New Refugee',
   service_name: 'integration',
+  date: new Date().toISOString().slice(0, 19),
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
