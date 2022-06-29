@@ -55,7 +55,7 @@ export default function page() {
   const housingData = housing.data;
   const housingError = housing.error;
 
-  if (!auth.user) {
+  if (!auth.user || !Array.isArray(housingData) || !Array.isArray(data)) {
     return (
       <Layout>
         <Text align="center" weight={700} size="xl" color="dimmed">
@@ -89,7 +89,6 @@ export default function page() {
       </Layout>
     );
 
-  console.log(housingData);
 
   const housingItems = housingData.map((h: any) => {
     return {

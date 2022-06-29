@@ -25,7 +25,7 @@ export default function page() {
       .catch();
   }, [setPosts]);
 
-  if (!auth.user) {
+  if (!auth.user || !Array.isArray(posts)) {
     return (
       <Layout>
         <Text align="center" weight={700} size="xl" color="dimmed">

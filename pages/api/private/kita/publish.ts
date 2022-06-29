@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { eventHandler } from 'util/rabbitmq';
 import { customError, methodNotAllowed, notAuthenticated, success } from 'util/api/util';
-import auth from 'lib/auth/employee';
+import auth from 'lib/auth';
 
 const eventData = {
   event_id: 9002,
@@ -10,7 +10,7 @@ const eventData = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (!(await auth(req.cookies.token_employee))) return notAuthenticated(res);
+  if (!(await auth(req.cookies.token))) return notAuthenticated(res);
 
   if (req.method === 'POST') {
     const error = eventHandler({ ...eventData, ...req.body });

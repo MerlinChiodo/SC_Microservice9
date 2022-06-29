@@ -38,7 +38,7 @@ export default function page() {
         </Center>
       </Layout>
     );
-  if (!auth.user)
+  if (!auth.user || !Array.isArray(data.data))
     return (
       <Layout>
         <Text align="center" weight={700} size="xl" color="dimmed">
