@@ -16,6 +16,7 @@ import {
 import { fetchPostJSON, fetcher } from 'util/api/fetch';
 import Layout from 'components/layout/employee';
 import { useAuthEmployee } from 'context/auth/employee';
+import { isEmpty } from 'util/api/util';
 
 const handleAccept = async (data: Refugee[], family_tag: string) => {
   const year = new Date().getFullYear() - 18;
@@ -90,7 +91,7 @@ export default function page() {
       </Layout>
     );
 
-  if (data.length < 1) {
+  if (!data[0]) {
     return (
       <Layout>
         <Title align="center" mt={40}>
