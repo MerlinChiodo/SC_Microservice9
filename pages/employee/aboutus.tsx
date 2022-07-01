@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { Center, Button, Space, Text, TextInput, Textarea } from '@mantine/core';
+import { Button, Center, Container, Space, Title, Text, TextInput, Textarea } from '@mantine/core';
 import { fetchPostJSON } from 'util/api/fetch';
 import Link from 'next/link';
 import Layout from 'components/layout/employee';
@@ -57,17 +57,26 @@ export default function page() {
   } else {
     return (
       <Layout>
-        <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-          <Textarea m="sm" label="Text" {...form.getInputProps('about_us')} minRows={10} required />
-          <TextInput m="sm" label="Picture" {...form.getInputProps('picture')} />
-          <Button m="sm" type="submit">
-            Submit
+        <Title align="center">About Us</Title>
+        <Container sx={{ width: '800px' }}>
+          <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+            <Textarea
+              m="sm"
+              label="Text"
+              {...form.getInputProps('about_us')}
+              minRows={10}
+              required
+            />
+            <TextInput m="sm" label="Picture" {...form.getInputProps('picture')} />
+            <Button m="sm" type="submit">
+              Submit
+            </Button>
+          </form>
+          <Space mt={100} />
+          <Button m="sm" id="delete" color="red" onClick={() => handleDelete()}>
+            Delete Service
           </Button>
-        </form>
-        <Space mt={100} />
-        <Button m="sm" id="delete" color="red" onClick={() => handleDelete()}>
-          Delete Service
-        </Button>
+        </Container>
       </Layout>
     );
   }
