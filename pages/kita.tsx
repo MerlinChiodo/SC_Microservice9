@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Layout from 'components/layout';
 import { useAuth } from 'context/auth';
 import {
@@ -14,7 +15,8 @@ import {
   Text,
 } from '@mantine/core';
 import { fetchPostJSON, fetchGetJSON } from 'util/api/fetch';
-import { CITIZEN_OFFICE_URL } from 'util/server';
+import { CITIZEN_OFFICE_URL, KITA_URL } from 'util/server';
+import picture from 'public/kita/successful_application.jpg';
 
 export default function Kita() {
   const auth = useAuth();
@@ -22,6 +24,7 @@ export default function Kita() {
   const [id, setId] = useState('');
   const [children, setChildren] = useState<any>([]);
   const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [careTime, setCareTime] = useState<number | undefined>(20);
 
   useEffect(() => {
@@ -54,6 +57,7 @@ export default function Kita() {
         child: { citizen_id: Number(id) },
         parent: { citizen_id: auth.user!.citizen_id },
       });
+      setSuccess(true);
     } catch (e) {
       setError(true);
     }
@@ -89,6 +93,39 @@ export default function Kita() {
         <Loader variant="dots" />
       </Center>
     );
+  } else if (success) {
+    return (
+      <Layout>
+        <Title align="center" m="xl">
+          Application Successful
+        </Title>
+        <Text align="center">
+          You will be notified by the kita administration service for further steps.
+        </Text>
+        <Center m="md">
+          <div style={{ position: 'relative', width: '800px', height: '400px' }}>
+            <Image
+              src={picture}
+              width={400}
+              height={400}
+              layout="fill"
+              objectFit="contain"
+              placeholder="blur"
+            />
+          </div>
+        </Center>
+        <Title order={4} align="center" m="xl">
+          For Question please visit
+          <Text component="a" href={KITA_URL} color="blue" inherit>
+            {' '}
+            Kita Administration Service
+          </Text>
+        </Title>
+        <Center>
+          <Button onClick={() => setSuccess(false)}>Apply another child</Button>
+        </Center>
+      </Layout>
+    );
   } else {
     return (
       <Layout>
@@ -96,8 +133,20 @@ export default function Kita() {
           <Title>Kita Applikation</Title>
         </Center>
         <Center mt="xl">
-          <Paper withBorder shadow="xs" sx={{ minWidth: '600px' }}>
-            <Center mt={50}>
+          <Paper
+            withBorder
+            p="sm"
+            m="md"
+            shadow="xs"
+            sx={{
+              maxWidth: '800px',
+              width: '100%',
+            }}
+          >
+            <Text align="center" mt="md" color="dimmed" weight={700}>
+              Please select your child
+            </Text>
+            <Center mt="xl">
               <Chips multiple={false} value={id} onChange={setId} direction="column">
                 {items}
               </Chips>
@@ -111,11 +160,14 @@ export default function Kita() {
                 min={20}
                 max={45}
                 required
-                sx={{ minWidth: '400px' }}
+                sx={{
+                  maxWidth: '400px',
+                  width: '100%',
+                }}
               />
             </Center>
             <Center m="xl">
-              <Button onClick={() => handleSubmit()}>Submit</Button>
+              <Button radius="md" size="md" onClick={() => handleSubmit()} uppercase>Submit</Button>
             </Center>
           </Paper>
         </Center>
