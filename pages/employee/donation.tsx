@@ -12,6 +12,7 @@ import {
   Space,
   Text,
   Title,
+  ThemeIcon,
 } from '@mantine/core';
 import { fetcher } from 'util/api/fetch';
 import { formatAmountFromStripe } from 'util/stripe';
@@ -73,7 +74,17 @@ export default function page() {
         <Text size="md" color="dimmed" weight={600}>
           {formatAmountFromStripe(d.amount, CURRENCY)},00 &euro;
         </Text>
-        <Text size="md" color={d.billing_details.name ? 'black' : 'dimmed'}>
+        <Text
+          size="md"
+          color={d.billing_details.name ? 'black' : 'dimmed'}
+          sx={(theme) => ({
+            color: d.billing_details.name
+              ? theme.colorScheme === 'dark'
+                ? 'white'
+                : 'black'
+              : 'dimmed',
+          })}
+        >
           {d.billing_details.name ? d.billing_details.name : 'Anonymous'}
         </Text>
         <Badge
