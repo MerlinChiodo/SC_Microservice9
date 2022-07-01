@@ -1,8 +1,7 @@
 export interface User {
-  firstname: string;
-  lastname: string;
-  email: string;
+  username: string;
   citizen_id: number;
+  [info: string | number | symbol]: unknown;
 }
 
 export interface Employee {
