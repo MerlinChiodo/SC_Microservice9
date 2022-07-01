@@ -89,9 +89,9 @@ export default function Housing() {
       <Layout>
         <Title align="center">Provide Accommodation</Title>
         <Center>
-          <Paper withBorder m="xl" shadow="md" sx={{ maxWidth: 1000 }}>
+          <Paper withBorder m="xl" shadow="md" sx={{ maxWidth: '800px' }}>
             <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-              <Grid m="xl">
+              <Grid m="lg">
                 <Grid.Col xs={12} sm={6}>
                   <NumberInput
                     id="people_limit"
@@ -99,7 +99,7 @@ export default function Housing() {
                     placeholder="Enter number of people"
                     min={1}
                     required
-                    mt="sm"
+                    mt="xs"
                     {...form.getInputProps('people_limit')}
                   />
                 </Grid.Col>
@@ -112,7 +112,7 @@ export default function Housing() {
                     min={1}
                     max={300}
                     precision={1}
-                    mt="sm"
+                    mt="xs"
                     {...form.getInputProps('size')}
                   />
                 </Grid.Col>
@@ -121,7 +121,7 @@ export default function Housing() {
                     id="shared_bathroom"
                     label="Shared Bathroom"
                     placeholder="Yes or No"
-                    mt="sm"
+                    mt="xs"
                     data={[
                       { value: 'true', label: 'Yes' },
                       { value: 'false', label: 'No' },
@@ -134,7 +134,7 @@ export default function Housing() {
                     id="rooms"
                     label="Rooms"
                     placeholder="Enter number of rooms"
-                    mt="sm"
+                    mt="xs"
                     min={1}
                     {...form.getInputProps('rooms')}
                   />
@@ -144,7 +144,7 @@ export default function Housing() {
                     id="rent"
                     label="Rent"
                     placeholder="Enter rent, enter 0 for free"
-                    mt="sm"
+                    mt="xs"
                     min={0}
                     max={3000}
                     precision={2}
@@ -157,7 +157,7 @@ export default function Housing() {
                     id="house_number"
                     label="House Number"
                     placeholder="Enter house number"
-                    mt="sm"
+                    mt="xs"
                     min={1}
                     required
                     {...form.getInputProps('house_number')}
@@ -169,7 +169,7 @@ export default function Housing() {
                     label="Street"
                     placeholder="Enter street"
                     required
-                    mt="sm"
+                    mt="xs"
                     {...form.getInputProps('street')}
                   />
                 </Grid.Col>
@@ -178,7 +178,7 @@ export default function Housing() {
                     id="city_code"
                     label="City Code"
                     placeholder="Enter city code"
-                    mt="sm"
+                    mt="xs"
                     min={10000}
                     max={99999}
                     required
@@ -190,14 +190,14 @@ export default function Housing() {
                     id="info"
                     label="Addtional Information"
                     placeholder="Enter additional information"
-                    mt="sm"
-                    minRows={10}
+                    mt="xs"
+                    minRows={7}
                     {...form.getInputProps('info')}
                   />
                 </Grid.Col>
                 <Grid.Col>
                   <Center>
-                    <Button type="submit" radius="md" size="md" m="xl" uppercase>
+                    <Button type="submit" radius="md" size="md" mt="xl" uppercase>
                       Submit
                     </Button>
                   </Center>
