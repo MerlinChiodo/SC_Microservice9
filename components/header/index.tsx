@@ -6,6 +6,7 @@ import {
   Avatar,
   Button,
   Burger,
+  Center,
   Drawer,
   Group,
   Header,
@@ -124,12 +125,15 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             Sign in
           </Button>
         </Paper>
-        <Image
-          src="https://github.com/SmartCityProjectGroup/SmartCity/blob/main/Logo_4.png?raw=true"
-          width="100%"
-          height="100%"
-          layout="responsive"
-        />
+        <Center>
+          <div style={{ position: 'relative', width: '350px', height: '200px' }}>
+            <Image
+              src="https://github.com/SmartCityProjectGroup/SmartCity/blob/main/Logo_4.png?raw=true"
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
+        </Center>
       </Drawer>
     </>
   );
