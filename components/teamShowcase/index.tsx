@@ -1,6 +1,6 @@
-import type { Employee as EmployeeType} from '@prisma/client';
+import type { Employee as EmployeeType } from '@prisma/client';
 import React, { useState } from 'react';
-import { Group } from '@mantine/core';
+import { Group, MediaQuery } from '@mantine/core';
 import Employee from 'components/employee';
 import PrevButton from 'components/buttons/prev';
 import NextButton from 'components/buttons/next';
@@ -101,13 +101,17 @@ export default function TeamShowcase({ data }: { data: EmployeeType[] }) {
     <>
       <Group position="center" noWrap>
         <PrevButton onClick={handlePrev} />
-        <Group>
-          {employees[left]}
-          {employees[middle]}
-          {employees[right]}
-        </Group>
-
+        <MediaQuery smallerThan="lg" styles={{ display: 'none' }}>
+          <Group>
+            {employees[left]}
+            {employees[middle]}
+            {employees[right]}
+          </Group>
+        </MediaQuery>
         <NextButton onClick={handleNext} />
+        <MediaQuery largerThan="lg" styles={{ display: 'none' }}>
+          <Group position="center">{employees}</Group>
+        </MediaQuery>
       </Group>
     </>
   );

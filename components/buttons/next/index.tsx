@@ -9,6 +9,9 @@ export function PrevButton({ onClick }: { onClick: Function }) {
       size="lg"
       sx={(theme) => ({
         color: theme.colorScheme === 'dark' ? theme.colors.yellow[4] : theme.colors.black,
+        [theme.fn.smallerThan('lg')]: {
+          display: 'none',
+        }
       })}
     >
       <CaretRight size={50} />

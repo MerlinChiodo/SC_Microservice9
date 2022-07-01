@@ -24,14 +24,14 @@ const Page: NextPage = () => {
   return (
     <Layout>
       <SimpleGrid cols={1}>
-        <Title sx={{ fontSize: 120, fontWeight: 900, letterSpacing: -2 }} align="center" mt={300}>
+        <Title sx={{ fontSize: 60, fontWeight: 900, letterSpacing: -2 }} align="center" m="xl">
           Welcome
         </Title>
         <Title
-          sx={{ fontSize: 50, fontWeight: 500, letterSpacing: 7 }}
+          sx={{ fontSize: 30, fontWeight: 500, letterSpacing: 7 }}
           align="center"
-          mt={120}
-          mb={120}
+          mt="xl"
+          mb="xl"
         >
           Our Team
         </Title>

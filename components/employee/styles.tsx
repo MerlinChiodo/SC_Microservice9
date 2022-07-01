@@ -6,13 +6,13 @@ export const useStyles = createStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '25rem',
-    height: '36rem',
+    width: 325,
+    height: 450,
     border: theme.colorScheme === 'dark' ? `solid 1px ${theme.colors.dark[6]}` : 'None',
   },
   stack: {
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[1],
-    height: 300,
+    height: 250,
     width: '100%',
   },
   group: {
@@ -23,7 +23,17 @@ export const useStyles = createStyles((theme) => ({
     gap: '30px',
   },
   avatar: {
-    width: '150px',
-    height: '150px',
+    width: '100px',
+    height: '100px',
+  },
+  email: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '30px',
+    textDecoration: 'none',
+    color: 'inherit',
+    '&:hover': {
+      color: theme.colorScheme === 'dark' ? theme.colors.yellow[4] : theme.colors.blue[6],
+    },
   },
 }));
