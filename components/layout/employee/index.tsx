@@ -1,8 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
-import { AppShell, Avatar, Group, Navbar, Header, SimpleGrid, Title, Text } from '@mantine/core';
+import { useRouter } from 'next/router';
+import {
+  AppShell,
+  Avatar,
+  Divider,
+  Group,
+  Navbar,
+  Header,
+  SimpleGrid,
+  Title,
+  Text,
+} from '@mantine/core';
 import HeaderLogo from 'components/header/logo';
 import ThemeToggle from 'components/buttons/theme';
+import LogoutButton from 'components/buttons/logout';
 import { useStyles } from './styles';
 import { useAuthEmployee } from 'context/auth/employee';
 
@@ -39,6 +51,7 @@ const links = [
 
 export function EmployeeLayout({ children }: any) {
   const auth = useAuthEmployee();
+  const router = useRouter();
   const { classes } = useStyles();
   const navItems = links.map((link) => (
     <Link href={link.link} passHref key={link.label}>
@@ -58,6 +71,7 @@ export function EmployeeLayout({ children }: any) {
             {navItems}
           </Navbar.Section>
           <Navbar.Section>
+            <Divider mb="sm" />
             <Group position="apart">
               <Avatar
                 src={
@@ -84,7 +98,15 @@ export function EmployeeLayout({ children }: any) {
             <HeaderLogo />
             <Title order={4}>Amt für Integration</Title>
           </Group>
-          <ThemeToggle />
+          <Group position="right">
+            <LogoutButton
+              handleLogout={() => {
+                auth.logout();
+                router.push('/');
+              }}
+            />
+            <ThemeToggle />
+          </Group>
         </Header>
       }
     >
