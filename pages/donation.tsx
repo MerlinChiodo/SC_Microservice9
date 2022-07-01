@@ -38,7 +38,7 @@ export default function Donation() {
         <Blockquote cite="– Winston S. Churchill">
           We make a living by what we get. We make a life by what we give.
         </Blockquote>
-        <div style={{ width: '800px' }}>
+        <div>
           {paymentIntent && paymentIntent.client_secret ? (
             <Elements
               stripe={getStripe()}
