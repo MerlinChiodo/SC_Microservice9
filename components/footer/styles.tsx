@@ -24,6 +24,8 @@ export const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan('sm')]: {
       marginTop: theme.spacing.lg,
       marginBottom: theme.spacing.sm,
+      display: 'flex',
+      justifyContent: 'center'
     },
   },
 }));
