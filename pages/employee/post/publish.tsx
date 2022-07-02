@@ -1,6 +1,6 @@
 import type { Post } from '@prisma/client';
 import { useEffect, useState } from 'react';
-import { Avatar, Button, Center, Group, Text, Space, Stack } from '@mantine/core';
+import { Avatar, Button, Center, Group, Title, Text, Space, Stack } from '@mantine/core';
 import { fetchGetJSON, fetchPostJSON } from 'util/api/fetch';
 import Layout from 'components/layout/employee';
 import { useAuthEmployee } from 'context/auth/employee';
@@ -46,7 +46,7 @@ export default function page() {
 
   const items = posts.map((p: Post) => (
     <Group noWrap key={p.id}>
-      <Avatar />
+      <Avatar src={p.picture_url ? p.picture_url : ''} />
       <div style={{ flex: 1 }}>
         <Text size="sm" weight={500}>
           {p.title}
@@ -63,6 +63,7 @@ export default function page() {
 
   return (
     <Layout>
+      <Title align="center">Publish Post</Title>
       <Center>
         <Stack sx={{ width: '800px' }}>{items}</Stack>
       </Center>

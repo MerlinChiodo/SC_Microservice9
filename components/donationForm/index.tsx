@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, useEffect } from 'react';
 import { ActionIcon, Button, Center, Loader, Stack, Text, TextInput, Paper } from '@mantine/core';
 import { PaymentIntent } from '@stripe/stripe-js';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
@@ -8,6 +8,7 @@ import * as config from 'lib/stripe/config';
 import CustomDonationInput from './CustomDonationInput';
 import { useAuth } from 'context/auth';
 import { Refresh } from 'tabler-icons-react';
+import { useStyles } from './styles';
 
 const DonationForm: FC<{
   paymentIntent?: PaymentIntent | null;
@@ -17,16 +18,21 @@ const DonationForm: FC<{
     ? formatAmountFromStripe(paymentIntent.amount, paymentIntent.currency)
     : Math.round(config.MAX_AMOUNT / config.AMOUNT_STEP);
   const auth = useAuth();
-  const [input, setInput] = useState({
-    customDonation: defaultAmount,
-    cardholderName: auth.user ? auth.user.firstname + ' ' + auth.user.lastname : '',
-  });
+  const [customDonation, setCustomDonation] = useState(defaultAmount);
+  const [cardholderName, setCardholderName] = useState(
+    auth.user ? auth.user.firstname + ' ' + auth.user.lastname : ''
+  );
   const [paymentType, setPaymentType] = useState('');
   const [payment, setPayment] = useState({ status: 'initial' });
   const [errorMessage, setErrorMessage] = useState('');
   const [eventMessage, setEventMessage] = useState<string | null>();
   const stripe = useStripe();
   const elements = useElements();
+  const { classes } = useStyles();
+
+  useEffect(() => {
+    setCardholderName(auth.user ? auth.user.firstname + ' ' + auth.user.lastname : '');
+  }, [auth.user, setCardholderName]);
 
   const PaymentStatus = ({ status }: { status: string }) => {
     switch (status) {
@@ -48,14 +54,14 @@ const DonationForm: FC<{
         if (eventMessage) {
           return (
             <Stack spacing="xs" align="center">
-              <Text weight={700}>🥳 Thank you {input.cardholderName} for your donation!</Text>
+              <Text weight={700}>🥳 Thank you {cardholderName} for your donation!</Text>
               <Text size="sm" weight={500} color="dimmed">
                 {eventMessage}
               </Text>
             </Stack>
           );
         }
-        return <Text weight={700}>🥳 Thank you {input.cardholderName} for your donation!</Text>;
+        return <Text weight={700}>🥳 Thank you {cardholderName} for your donation!</Text>;
       case 'error':
         return (
           <Stack spacing="xs" align="center">
@@ -71,16 +77,10 @@ const DonationForm: FC<{
   };
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setInput({
-      ...input,
-      cardholderName: e.currentTarget.value,
-    });
+    setCardholderName(e.target.value);
   };
   const handleInputChangeNumber = (v: number) => {
-    setInput({
-      ...input,
-      customDonation: v,
-    });
+    setCustomDonation(v);
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -90,13 +90,13 @@ const DonationForm: FC<{
     if (!elements) return;
     setPayment({ status: 'processing' });
 
-    if (auth.user && input.cardholderName == '') {
-      setInput({ ...input, cardholderName: auth.user.firstname + ' ' + auth.user.lastname });
+    if (auth.user && cardholderName == '') {
+      setCardholderName(auth.user.firstname + ' ' + auth.user.lastname);
     }
 
     // Create a PaymentIntent with the specified amount.
     const response = await fetchPostJSON('/api/private/donation/payment_intents', {
-      amount: input.customDonation,
+      amount: customDonation,
       payment_intent_id: paymentIntent?.id,
     });
     setPayment(response);
@@ -113,7 +113,7 @@ const DonationForm: FC<{
       confirmParams: {
         payment_method_data: {
           billing_details: {
-            name: input.cardholderName,
+            name: cardholderName,
           },
         },
       },
@@ -126,7 +126,7 @@ const DonationForm: FC<{
     } else if (paymentIntent) {
       if (auth.user) {
         await fetchPostJSON('/api/private/donation/publish', {
-          amount: input.customDonation,
+          amount: customDonation,
           citizen_id: auth.user.citizen_id,
         })
           .then(() => setEventMessage('Your donation has been transferred to Finanzamt.'))
@@ -142,12 +142,12 @@ const DonationForm: FC<{
 
   return (
     <>
-      <Paper shadow="sm" p="md" withBorder>
+      <Paper shadow="sm" p="md" m="md" withBorder className={classes.paper}>
         <form onSubmit={handleSubmit}>
           <CustomDonationInput
             className="elements-style"
             name="customDonation"
-            value={input.customDonation}
+            value={customDonation}
             min={config.MIN_AMOUNT}
             max={config.MAX_AMOUNT}
             step={config.AMOUNT_STEP}
@@ -160,7 +160,7 @@ const DonationForm: FC<{
               placeholder="Cardholder name"
               type="text"
               name="cardholderName"
-              value={input.cardholderName}
+              value={cardholderName}
               onChange={handleInputChange}
               size="md"
               mb="sm"
@@ -182,12 +182,13 @@ const DonationForm: FC<{
           <Center>
             <Button
               size="lg"
-              radius="lg"
+              radius="md"
               m="xl"
               type="submit"
               disabled={!['initial', 'error'].includes(payment.status) || !stripe}
+              uppercase
             >
-              Donate {formatAmountForDisplay(input.customDonation, config.CURRENCY)}
+              Donate {formatAmountForDisplay(customDonation, config.CURRENCY)}
             </Button>
             <ActionIcon
               style={{ display: ['succeeded'].includes(payment.status) ? 'block' : 'none' }}

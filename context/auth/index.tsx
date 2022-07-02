@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }): JSX.E
     fetchGetJSON('/api/private/user/checkAuth')
       .then((res) => {
         if (!res.verified) logout();
-        setUser(res.user);
+        setUser({ username: res.user.username, citizen_id: res.user.citizen_id, ...res.user.info });
       })
       .catch(() => logout());
   }, [setUser]);

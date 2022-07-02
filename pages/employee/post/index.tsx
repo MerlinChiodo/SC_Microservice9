@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { Button, Center, Space, Text, TextInput, Textarea } from '@mantine/core';
+import { Button, Center, Container, Space, Title, Text, TextInput, Textarea } from '@mantine/core';
 import { fetchPostJSON } from 'util/api/fetch';
 import Layout from 'components/layout/employee';
 import Link from 'next/link';
@@ -47,26 +47,29 @@ export default function page() {
   } else {
     return (
       <Layout>
-        <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-          <TextInput m="sm" label="Title" {...form.getInputProps('title')} required />
-          <TextInput
-            m="sm"
-            label="Description"
-            {...form.getInputProps('short_description')}
-            required
-          />
-          <Textarea
-            m="sm"
-            label="Text"
-            {...form.getInputProps('long_description')}
-            minRows={10}
-            required
-          />
-          <TextInput m="sm" label="Picture" {...form.getInputProps('picture_url')} />
-          <Button m="sm" type="submit">
-            Create
-          </Button>
-        </form>
+        <Title align="center">New Post</Title>
+        <Container sx={{width: '800px'}}>
+          <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+            <TextInput m="sm" label="Title" {...form.getInputProps('title')} required />
+            <TextInput
+              m="sm"
+              label="Description"
+              {...form.getInputProps('short_description')}
+              required
+            />
+            <Textarea
+              m="sm"
+              label="Text"
+              {...form.getInputProps('long_description')}
+              minRows={10}
+              required
+            />
+            <TextInput m="sm" label="Picture" {...form.getInputProps('picture_url')} />
+            <Button m="sm" type="submit">
+              Create
+            </Button>
+          </form>
+        </Container>
       </Layout>
     );
   }

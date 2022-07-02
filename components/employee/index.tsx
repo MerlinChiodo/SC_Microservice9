@@ -8,9 +8,9 @@ export default function Employee({ employee, key }: { employee: Employee; key: n
   const { classes } = useStyles();
   return (
     <Paper shadow="xl" p="xl" key={key} className={classes.paper}>
-      <Avatar src={employee.avatar} radius={150} size={150} mb="md" className={classes.avatar} />
+      <Avatar src={employee.avatar} radius={100} size="xs" mb="md" className={classes.avatar} />
       <Stack align="center" className={classes.stack}>
-        <Title mt="xl" order={3}>
+        <Title mt="xl" order={5}>
           {employee.firstname + ' ' + employee.lastname}
         </Title>
         <Group className={classes.group}>
@@ -26,8 +26,10 @@ export default function Employee({ employee, key }: { employee: Employee; key: n
           <Text>{employee.room}</Text>
         </Group>
         <Group className={classes.group}>
-          <Mail />
-          <Text>{employee.email}</Text>
+          <a className={classes.email} href={'mailto:' + employee.email}>
+            <Mail />
+            <Text>{employee.email}</Text>
+          </a>
         </Group>
       </Stack>
     </Paper>
